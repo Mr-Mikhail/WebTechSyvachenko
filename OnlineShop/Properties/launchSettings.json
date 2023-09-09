@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "OnlineShop": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:6161;http://localhost:6160",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
