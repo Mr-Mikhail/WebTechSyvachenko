@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Models;
+using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
