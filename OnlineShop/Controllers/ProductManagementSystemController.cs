@@ -1,10 +1,23 @@
+using System.Globalization;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Domain.Models;
+using OnlineShop.Domain.Services;
 using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
 public class ProductManagementSystemController : Controller
 {
+    private readonly IProductManagementService _productManagementService;
+    private readonly IMapper _mapper;
+
+    public ProductManagementSystemController(IProductManagementService productManagementService, IMapper mapper)
+    {
+        _productManagementService = productManagementService;
+        _mapper = mapper;
+    }
+
     // TODO: Add Db connection + services for business logics
     public IActionResult Index()
     {
@@ -16,15 +29,19 @@ public class ProductManagementSystemController : Controller
         return View();
     }
 
-    public IActionResult Save(ProductViewModel model)
+    public async Task<IActionResult> SaveAsync(ProductViewModel model, CancellationToken token)
     {
-        if (ModelState.IsValid)
-        {
-            model.Id = Guid.NewGuid();
-            return RedirectToAction("Created", model);
-        }
+        var culture = CultureInfo.CurrentCulture;
+        
+        if (!ModelState.IsValid) 
+            return RedirectToAction("Create");
+        
+        model.Id = Guid.NewGuid();
 
-        return RedirectToAction("Create");
+        var product = _mapper.Map<Product>(model);
+        await _productManagementService.CreateProductAsync(product, token);
+        
+        return RedirectToAction("Created", model);
     }
     
     public IActionResult Created(ProductViewModel model)
@@ -32,18 +49,12 @@ public class ProductManagementSystemController : Controller
         return View(model);
     }
 
-    public IActionResult All()
+    public async Task<IActionResult> All(CancellationToken token)
     {
-        var products = new List<ProductViewModel>
-        {
-            new()
-            {
-                Currency = "USD", Id = Guid.NewGuid(), ProductDescription = "Test product", ProductName = "Socks",
-                ProductPrice = 100
-            }
-        };
+        var products = await _productManagementService.GetAllProductsAsync(token);
+        var viewModel = _mapper.Map<List<ProductViewModel>>(products);
 
-        return View(products);
+        return View(viewModel);
     }
     
     public IActionResult Edit(Guid id)
@@ -53,7 +64,7 @@ public class ProductManagementSystemController : Controller
             Id = id,
             ProductName = "Sample Product",
             ProductDescription = "Sample Description",
-            ProductPrice = 100.00m,
+            ProductPrice = 100.00,
             Currency = "USD"
         };
 

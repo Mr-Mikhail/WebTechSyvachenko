@@ -1,9 +1,12 @@
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Application;
 using OnlineShop.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddMvcOptions(options => 
@@ -15,7 +18,14 @@ builder.Services.AddRazorPages().AddMvcOptions(options =>
 builder.Services.AddDbContext<DefaultContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.RegisterServices();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var app = builder.Build();
 

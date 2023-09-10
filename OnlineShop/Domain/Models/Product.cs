@@ -10,7 +10,7 @@ public class Product
 
     public Guid? ProductPhotoId { get; set; }
 
-    public decimal ProductPrice { get; set; }
+    public double ProductPrice { get; set; }
 
     public string Currency { get; set; } = default!;
 
