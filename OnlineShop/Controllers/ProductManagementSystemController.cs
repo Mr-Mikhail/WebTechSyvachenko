@@ -8,12 +8,12 @@ namespace OnlineShop.Controllers;
 
 public class ProductManagementSystemController : Controller
 {
-    private readonly IDatabaseService<Product> _productManagementService;
+    private readonly IDatabaseService<Product> _productDatabaseService;
     private readonly IMapper _mapper;
 
-    public ProductManagementSystemController(IDatabaseService<Product> productManagementService, IMapper mapper)
+    public ProductManagementSystemController(IDatabaseService<Product> productDatabaseService, IMapper mapper)
     {
-        _productManagementService = productManagementService;
+        _productDatabaseService = productDatabaseService;
         _mapper = mapper;
     }
 
@@ -36,7 +36,7 @@ public class ProductManagementSystemController : Controller
         model.Id = Guid.NewGuid();
 
         var product = _mapper.Map<Product>(model);
-        await _productManagementService.CreateAsync(product, token);
+        await _productDatabaseService.CreateAsync(product, token);
         
         return RedirectToAction("Created", model);
     }
@@ -48,7 +48,7 @@ public class ProductManagementSystemController : Controller
 
     public async Task<IActionResult> All(CancellationToken token)
     {
-        var products = await _productManagementService.GetAllAsync(token);
+        var products = await _productDatabaseService.GetAllAsync(token);
         var viewModel = _mapper.Map<List<ProductViewModel>>(products);
 
         return View(viewModel);
@@ -56,7 +56,7 @@ public class ProductManagementSystemController : Controller
     
     public async Task<IActionResult> Edit(Guid id, CancellationToken token)
     {
-        var products = await _productManagementService.GetAsync(x => x.Id == id, token);
+        var products = await _productDatabaseService.GetAsync(x => x.Id == id, token);
 
         var product = products.FirstOrDefault();
         var viewModel = _mapper.Map<ProductViewModel>(product);
@@ -71,13 +71,13 @@ public class ProductManagementSystemController : Controller
             return View("Edit", model);
         
         var product = _mapper.Map<Product>(model);
-        await _productManagementService.UpdateAsync(product, token);
+        await _productDatabaseService.UpdateAsync(product, token);
         return RedirectToAction("All");
     }
 
     public async Task<IActionResult> Delete(Guid id, CancellationToken token)
     {
-        await _productManagementService.DeleteAsync(id, token);
+        await _productDatabaseService.DeleteAsync(id, token);
         
         return RedirectToAction("Index");
     }

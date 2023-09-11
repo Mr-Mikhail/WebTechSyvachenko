@@ -8,27 +8,27 @@ namespace OnlineShop.Controllers;
 
 public class ProductsController : Controller
 {
-    private readonly IDatabaseService<Product> _productManagementService;
-    private readonly IDatabaseService<Review> _reviewManagementService;
+    private readonly IDatabaseService<Product> _productDatabaseService;
+    private readonly IDatabaseService<Review> _reviewDatabaseService;
     private readonly IMapper _mapper;
     
-    public ProductsController(IDatabaseService<Product> productManagementService, IMapper mapper, IDatabaseService<Review> reviewManagementService)
+    public ProductsController(IDatabaseService<Product> productDatabaseService, IMapper mapper, IDatabaseService<Review> reviewDatabaseService)
     {
-        _productManagementService = productManagementService;
+        _productDatabaseService = productDatabaseService;
         _mapper = mapper;
-        _reviewManagementService = reviewManagementService;
+        _reviewDatabaseService = reviewDatabaseService;
     }
 
     public async Task<IActionResult> Index(CancellationToken token)
     {
-        var products = await _productManagementService.GetAllAsync(token);
+        var products = await _productDatabaseService.GetAllAsync(token);
         var viewModels = _mapper.Map<List<ProductViewModel>>(products);
         return View(viewModels);
     }
 
     public async Task<IActionResult> Details(Guid id, CancellationToken token)
     {
-        var product = (await _productManagementService.GetAsync(x => x.Id == id, token)).FirstOrDefault();
+        var product = (await _productDatabaseService.GetAsync(x => x.Id == id, token)).FirstOrDefault();
         if (product == null)
             RedirectToAction("Index");
 
@@ -40,7 +40,7 @@ public class ProductsController : Controller
     public async Task<IActionResult> CreateReview(ReviewViewModel reviewViewModel, CancellationToken token)
     {
         var review = _mapper.Map<Review>(reviewViewModel);
-        await _reviewManagementService.CreateAsync(review, token);
+        await _reviewDatabaseService.CreateAsync(review, token);
         
         return RedirectToAction("Details", new { id = reviewViewModel.ProductId });
     }
