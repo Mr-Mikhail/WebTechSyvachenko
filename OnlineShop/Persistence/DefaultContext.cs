@@ -11,10 +11,23 @@ public class DefaultContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<Photo> Photos { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>().ToTable("Products");
+        modelBuilder.Entity<Photo>().ToTable("Photos");
+        
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.ProductPhoto)
+            .WithOne(p => p.Product)
+            .HasForeignKey<Photo>(p => p.ProductId);
+
+        modelBuilder.Entity<Review>()
+            .HasOne(p => p.Product)
+            .WithMany(p => p.Reviews)
+            .HasForeignKey(p => p.ProductId);
+        
         base.OnModelCreating(modelBuilder);
     }
 }

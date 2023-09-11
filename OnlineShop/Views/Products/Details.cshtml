@@ -1,0 +1,47 @@
+@model OnlineShop.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.ProductName</h2>
+<p>@Model.ProductDescription</p>
+<p>Price: @Model.ProductPrice @Model.Currency</p>
+
+@if (Model.Reviews != null && Model.Reviews.Any())
+{
+    <h3>Reviews</h3>
+    <ul>
+        @foreach (var review in Model.Reviews)
+        {
+            <li>
+                <strong>Name:</strong> @review.Name <br />
+                <strong>Value:</strong> @review.Value <br />
+                <strong>Stars:</strong> @review.Stars
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No reviews available.</p>
+}
+
+<h3>Add Your Review</h3>
+<form asp-action="CreateReview" asp-controller="Products" method="post">
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" name="Name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Value">Value:</label>
+        <input type="text" id="Value" name="Value" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Stars">Stars:</label>
+        <input type="number" id="Stars" name="Stars" class="form-control" min="0" max="5" required />
+    </div>
+    <input type="hidden" name="ProductId" value="@Model.Id" /> <!-- Include the ProductId in the form -->
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>

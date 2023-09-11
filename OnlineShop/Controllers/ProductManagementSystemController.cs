@@ -1,4 +1,3 @@
-using System.Globalization;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain.Models;
@@ -9,10 +8,10 @@ namespace OnlineShop.Controllers;
 
 public class ProductManagementSystemController : Controller
 {
-    private readonly IProductManagementService _productManagementService;
+    private readonly IDatabaseService<Product> _productManagementService;
     private readonly IMapper _mapper;
 
-    public ProductManagementSystemController(IProductManagementService productManagementService, IMapper mapper)
+    public ProductManagementSystemController(IDatabaseService<Product> productManagementService, IMapper mapper)
     {
         _productManagementService = productManagementService;
         _mapper = mapper;
@@ -31,15 +30,13 @@ public class ProductManagementSystemController : Controller
 
     public async Task<IActionResult> SaveAsync(ProductViewModel model, CancellationToken token)
     {
-        var culture = CultureInfo.CurrentCulture;
-        
         if (!ModelState.IsValid) 
             return RedirectToAction("Create");
         
         model.Id = Guid.NewGuid();
 
         var product = _mapper.Map<Product>(model);
-        await _productManagementService.CreateProductAsync(product, token);
+        await _productManagementService.CreateAsync(product, token);
         
         return RedirectToAction("Created", model);
     }
@@ -51,40 +48,37 @@ public class ProductManagementSystemController : Controller
 
     public async Task<IActionResult> All(CancellationToken token)
     {
-        var products = await _productManagementService.GetAllProductsAsync(token);
+        var products = await _productManagementService.GetAllAsync(token);
         var viewModel = _mapper.Map<List<ProductViewModel>>(products);
 
         return View(viewModel);
     }
     
-    public IActionResult Edit(Guid id)
+    public async Task<IActionResult> Edit(Guid id, CancellationToken token)
     {
-        var productViewModel = new ProductViewModel
-        {
-            Id = id,
-            ProductName = "Sample Product",
-            ProductDescription = "Sample Description",
-            ProductPrice = 100.00,
-            Currency = "USD"
-        };
+        var products = await _productManagementService.GetAsync(x => x.Id == id, token);
 
-        return View(productViewModel);
+        var product = products.FirstOrDefault();
+        var viewModel = _mapper.Map<ProductViewModel>(product);
+        
+        return product == null ? View("All") : View(viewModel);
     }
     
     [HttpPost]
-    public IActionResult Update(ProductViewModel model)
+    public async Task<IActionResult> Update(ProductViewModel model, CancellationToken token)
     {
-        if (ModelState.IsValid)
-        {
-
-            return RedirectToAction("All");
-        }
-
-        return View("Edit", model);
+        if (!ModelState.IsValid) 
+            return View("Edit", model);
+        
+        var product = _mapper.Map<Product>(model);
+        await _productManagementService.UpdateAsync(product, token);
+        return RedirectToAction("All");
     }
 
-    public IActionResult Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken token)
     {
-        return RedirectToAction("Create");
+        await _productManagementService.DeleteAsync(id, token);
+        
+        return RedirectToAction("Index");
     }
 }

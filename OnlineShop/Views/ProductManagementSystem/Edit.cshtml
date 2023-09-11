@@ -1,19 +1,45 @@
 @model OnlineShop.ViewModels.ProductViewModel
 
-
-
 <h1>Edit Product</h1>
 
 @using (Html.BeginForm("Update", "ProductManagementSystem", FormMethod.Post))
 {
-    @Html.HiddenFor(model => model.Id) <!-- Include the product ID -->
+    @Html.HiddenFor(model => model.Id)
     
     <div class="form-group">
         <label for="ProductName">Product Name:</label>
         @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
     </div>
 
-    <!-- Add other form fields for editing -->
+    <div class="form-group">
+        <label for="ProductDescription">Product Description:</label>
+        @Html.TextAreaFor(model => model.ProductDescription, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="ProductPhoto">Product Photo:</label>
+        <input type="file" name="ProductPhoto" id="ProductPhoto" class="form-control-file" />
+        @Html.ValidationMessageFor(model => model.ProductPhoto, "", new { @class = "text-danger", type = "image" })
+    </div>
+
+    <div class="form-group">
+        <label for="ProductPrice">Product Price:</label>
+        @Html.TextBoxFor(model => model.ProductPrice, new { @class = "form-control", min = 0.01, type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="Currency">Currency:</label>
+        @Html.DropDownListFor(model => model.Currency, new List<SelectListItem>
+        {
+            new() { Text = "USD", Value = "USD" },
+            new() { Text = "EUR", Value = "EUR" },
+            new() { Text = "UAH", Value = "UAH" }
+        }, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+    </div>
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
                                                        

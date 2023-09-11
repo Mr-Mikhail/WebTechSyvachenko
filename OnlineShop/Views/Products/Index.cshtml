@@ -1,0 +1,24 @@
+@model IEnumerable<OnlineShop.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="product-container">
+    <h1>Welcome to Sivach Shop!</h1>
+    
+    <div class="product-container">
+        <div class="column">
+            @foreach (var product in Model)
+            {
+                <div class="product-card">
+                    <h2>@product.ProductName</h2>
+                    <p>@product.ProductDescription</p>
+                    <p class="price">Price: @product.ProductPrice @product.Currency</p>
+                    <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="details-link">View Details</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

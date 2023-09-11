@@ -17,6 +17,8 @@ public class ProductViewModel
 
     [Required(ErrorMessage = "Product Price is required.")]
     public double ProductPrice { get; set; }
+    
+    public List<ReviewViewModel>? Reviews { get; set; }
 
     [Required(ErrorMessage = "Currency is required.")]
     public string Currency { get; set; } = default!;
