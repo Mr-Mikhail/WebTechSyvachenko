@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineShop.Domain.Models;
 
-public class Review
+public class Category
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,13 +11,9 @@ public class Review
 
     [Required]
     public string Name { get; set; } = default!;
-
-    [Required]
-    public string Value { get; set; } = default!;
-
-    [Required]
-    [Range(0, 5)]
-    public int Stars { get; set; }
+    
+    [MaxLength(1000)]
+    public string? Description { get; set; }
     
     public Guid ProductId { get; set; }
 

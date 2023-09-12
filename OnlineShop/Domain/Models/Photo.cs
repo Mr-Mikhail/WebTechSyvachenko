@@ -12,5 +12,5 @@ public class Photo
 
     public Guid ProductId { get; set; }
 
-    public Product Product { get; set; } = default!;
+    public Dish Dish { get; set; } = default!;
 }

@@ -6,33 +6,33 @@ using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
-public class ProductsController : Controller
+public class DishController : Controller
 {
-    private readonly IDatabaseService<Product> _productDatabaseService;
-    private readonly IDatabaseService<Review> _reviewDatabaseService;
+    private readonly IRepository<Dish> _productRepository;
+    private readonly IRepository<Review> _reviewRepository;
     private readonly IMapper _mapper;
     
-    public ProductsController(IDatabaseService<Product> productDatabaseService, IMapper mapper, IDatabaseService<Review> reviewDatabaseService)
+    public DishController(IRepository<Dish> productRepository, IMapper mapper, IRepository<Review> reviewRepository)
     {
-        _productDatabaseService = productDatabaseService;
+        _productRepository = productRepository;
         _mapper = mapper;
-        _reviewDatabaseService = reviewDatabaseService;
+        _reviewRepository = reviewRepository;
     }
 
     public async Task<IActionResult> Index(CancellationToken token)
     {
-        var products = await _productDatabaseService.GetAllAsync(token);
-        var viewModels = _mapper.Map<List<ProductViewModel>>(products);
+        var products = await _productRepository.GetAllAsync(token);
+        var viewModels = _mapper.Map<List<DishViewModel>>(products);
         return View(viewModels);
     }
 
     public async Task<IActionResult> Details(Guid id, CancellationToken token)
     {
-        var product = (await _productDatabaseService.GetAsync(x => x.Id == id, token)).FirstOrDefault();
+        var product = (await _productRepository.GetAsync(x => x.Id == id, token)).FirstOrDefault();
         if (product == null)
             RedirectToAction("Index");
 
-        var viewModel = _mapper.Map<ProductViewModel>(product);
+        var viewModel = _mapper.Map<DishViewModel>(product);
         
         return View(viewModel);
     }
@@ -40,7 +40,7 @@ public class ProductsController : Controller
     public async Task<IActionResult> CreateReview(ReviewViewModel reviewViewModel, CancellationToken token)
     {
         var review = _mapper.Map<Review>(reviewViewModel);
-        await _reviewDatabaseService.CreateAsync(review, token);
+        await _reviewRepository.CreateAsync(review, token);
         
         return RedirectToAction("Details", new { id = reviewViewModel.ProductId });
     }

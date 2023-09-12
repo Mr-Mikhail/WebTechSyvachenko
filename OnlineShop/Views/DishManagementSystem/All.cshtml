@@ -1,4 +1,4 @@
-@model List<OnlineShop.ViewModels.ProductViewModel>
+@model List<OnlineShop.ViewModels.DishViewModel>
 
 <h1>Product List</h1>
 
@@ -18,12 +18,12 @@
         @foreach (var product in Model)
         {
             <tr>
-                <td>@product.ProductName</td>
-                <td>@product.ProductDescription</td>
-                <td>@product.ProductPrice</td>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.Price</td>
                 <td>@product.Currency</td>
                 <td>
-                    <a href="@Url.Action("Edit", "ProductManagementSystem", new { id = product.Id })">Edit</a>
+                    <a href="@Url.Action("Edit", "DishManagementSystem", new { id = product.Id })">Edit</a>
                 </td>
             </tr>
         }

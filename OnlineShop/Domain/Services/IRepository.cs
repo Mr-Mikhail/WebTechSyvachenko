@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 namespace OnlineShop.Domain.Services;
 
-public interface IDatabaseService<T>
+public interface IRepository<T>
 {
     public Task<IEnumerable<T>> GetAllAsync(CancellationToken token);
 

@@ -1,33 +1,33 @@
-@model OnlineShop.ViewModels.ProductViewModel
+@model OnlineShop.ViewModels.DishViewModel
 
 <h1>Edit Product</h1>
 
-@using (Html.BeginForm("Update", "ProductManagementSystem", FormMethod.Post))
+@using (Html.BeginForm("Update", "DishManagementSystem", FormMethod.Post))
 {
     @Html.HiddenFor(model => model.Id)
     
     <div class="form-group">
         <label for="ProductName">Product Name:</label>
-        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="ProductDescription">Product Description:</label>
-        @Html.TextAreaFor(model => model.ProductDescription, new { @class = "form-control", rows = 4 })
-        @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="ProductPhoto">Product Photo:</label>
         <input type="file" name="ProductPhoto" id="ProductPhoto" class="form-control-file" />
-        @Html.ValidationMessageFor(model => model.ProductPhoto, "", new { @class = "text-danger", type = "image" })
+        @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger", type = "image" })
     </div>
 
     <div class="form-group">
         <label for="ProductPrice">Product Price:</label>
-        @Html.TextBoxFor(model => model.ProductPrice, new { @class = "form-control", min = 0.01, type = "number", step = "0.01" })
-        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control", min = 0.01, type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
@@ -50,7 +50,7 @@
     <script>
         document.getElementById('deleteButton').addEventListener('click', function() {
             if (confirm('Are you sure you want to delete this product?')) {
-                window.location.href = '@Url.Action("Delete", "ProductManagementSystem", new { id = Model.Id })';
+                window.location.href = '@Url.Action("Delete", "DishManagementSystem", new { id = Model.Id })';
             }
         });
     </script>

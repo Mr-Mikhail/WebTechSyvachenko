@@ -4,28 +4,28 @@ using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.Persistence;
 
-namespace OnlineShop.Application.Services;
+namespace OnlineShop.Application.Repositories;
 
-public class ProductDatabaseService : IDatabaseService<Product>
+public class ProductRepository : IRepository<Dish>
 {
     private readonly DefaultContext _defaultContext;
 
-    public ProductDatabaseService(DefaultContext defaultContext)
+    public ProductRepository(DefaultContext defaultContext)
     {
         _defaultContext = defaultContext;
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken token)
+    public async Task<IEnumerable<Dish>> GetAllAsync(CancellationToken token)
     {
-        return await _defaultContext.Products.Include(x => x.Reviews).Include(x => x.ProductPhoto).AsNoTracking().ToListAsync(token);
+        return await _defaultContext.Products.Include(x => x.Reviews).Include(x => x.Photo).AsNoTracking().ToListAsync(token);
     }
 
-    public async Task<IEnumerable<Product>> GetAsync(Expression<Func<Product, bool>> query, CancellationToken token)
+    public async Task<IEnumerable<Dish>> GetAsync(Expression<Func<Dish, bool>> query, CancellationToken token)
     {
-        return await _defaultContext.Products.Include(x => x.Reviews).Include(x => x.ProductPhoto).Where(query).ToListAsync(token);
+        return await _defaultContext.Products.Include(x => x.Reviews).Include(x => x.Photo).Where(query).ToListAsync(token);
     }
 
-    public async Task<Product> CreateAsync(Product item, CancellationToken token)
+    public async Task<Dish> CreateAsync(Dish item, CancellationToken token)
     {
         await _defaultContext.Products.AddAsync(item, token);
         await _defaultContext.SaveChangesAsync(token);
@@ -33,7 +33,7 @@ public class ProductDatabaseService : IDatabaseService<Product>
         return item;
     }
 
-    public async Task<Product> UpdateAsync(Product item, CancellationToken token)
+    public async Task<Dish> UpdateAsync(Dish item, CancellationToken token)
     {
         _defaultContext.Products.Update(item);
         await _defaultContext.SaveChangesAsync(token);

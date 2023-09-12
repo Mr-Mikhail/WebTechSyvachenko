@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineShop.Domain.Models;
 
-public class Product
+public class Dish
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,15 +11,19 @@ public class Product
     
     [Required]
     [StringLength(50)]
-    public string ProductName { get; set; } = default!;
+    public string Name { get; set; } = default!;
     
     [Required]
     [StringLength(500)]
-    public string ProductDescription { get; set; } = default!;
+    public string Description { get; set; } = default!;
 
-    public Photo? ProductPhoto { get; set; }
+    public Photo? Photo { get; set; }
 
-    public double ProductPrice { get; set; }
+    public double Price { get; set; }
+
+    public List<Category> Categories { get; set; } = new();
+
+    public bool IsAvailable { get; set; } = true;
 
     public string Currency { get; set; } = default!;
 

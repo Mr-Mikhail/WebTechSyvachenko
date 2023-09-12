@@ -1,25 +1,25 @@
-@model OnlineShop.ViewModels.ProductViewModel
+@model OnlineShop.ViewModels.DishViewModel
 
 <h1>Product Details</h1>
 
 <div class="form-group">
     <label for="ProductName">Product Name:</label>
-    <span>@Model.ProductName</span>
+    <span>@Model.Name</span>
 </div>
 
 <div class="form-group">
     <label for="ProductDescription">Product Description:</label>
-    <span>@Model.ProductDescription</span>
+    <span>@Model.Description</span>
 </div>
 
 <div class="form-group">
     <label for="ProductPhoto">Product Photo:</label>
-    <img src="@Model.ProductPhoto" alt="Product Photo" />
+    <img src="@Model.Photo" alt="Product Photo" />
 </div>
 
 <div class="form-group">
     <label for="ProductPrice">Product Price:</label>
-    <span>@Model.ProductPrice</span>
+    <span>@Model.Price</span>
 </div>
 
 <div class="form-group">

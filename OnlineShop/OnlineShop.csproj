@@ -14,8 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\ProductManagementSystem\" />
-      <Folder Include="Views\Products\" />
+      <Folder Include="Views\CategoryManagementSystem\" />
+      <Folder Include="Views\DishManagementSystem\" />
+      <Folder Include="Views\Dish\" />
     </ItemGroup>
 
     <ItemGroup>

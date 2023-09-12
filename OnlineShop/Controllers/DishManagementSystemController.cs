@@ -6,14 +6,14 @@ using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
-public class ProductManagementSystemController : Controller
+public class DishManagementSystemController : Controller
 {
-    private readonly IDatabaseService<Product> _productDatabaseService;
+    private readonly IRepository<Dish> _productRepository;
     private readonly IMapper _mapper;
 
-    public ProductManagementSystemController(IDatabaseService<Product> productDatabaseService, IMapper mapper)
+    public DishManagementSystemController(IRepository<Dish> productRepository, IMapper mapper)
     {
-        _productDatabaseService = productDatabaseService;
+        _productRepository = productRepository;
         _mapper = mapper;
     }
 
@@ -28,56 +28,56 @@ public class ProductManagementSystemController : Controller
         return View();
     }
 
-    public async Task<IActionResult> SaveAsync(ProductViewModel model, CancellationToken token)
+    public async Task<IActionResult> SaveAsync(DishViewModel model, CancellationToken token)
     {
         if (!ModelState.IsValid) 
             return RedirectToAction("Create");
         
         model.Id = Guid.NewGuid();
 
-        var product = _mapper.Map<Product>(model);
-        await _productDatabaseService.CreateAsync(product, token);
+        var product = _mapper.Map<Dish>(model);
+        await _productRepository.CreateAsync(product, token);
         
         return RedirectToAction("Created", model);
     }
     
-    public IActionResult Created(ProductViewModel model)
+    public IActionResult Created(DishViewModel model)
     {
         return View(model);
     }
 
     public async Task<IActionResult> All(CancellationToken token)
     {
-        var products = await _productDatabaseService.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<ProductViewModel>>(products);
+        var products = await _productRepository.GetAllAsync(token);
+        var viewModel = _mapper.Map<List<DishViewModel>>(products);
 
         return View(viewModel);
     }
     
     public async Task<IActionResult> Edit(Guid id, CancellationToken token)
     {
-        var products = await _productDatabaseService.GetAsync(x => x.Id == id, token);
+        var products = await _productRepository.GetAsync(x => x.Id == id, token);
 
         var product = products.FirstOrDefault();
-        var viewModel = _mapper.Map<ProductViewModel>(product);
+        var viewModel = _mapper.Map<DishViewModel>(product);
         
         return product == null ? View("All") : View(viewModel);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Update(ProductViewModel model, CancellationToken token)
+    public async Task<IActionResult> Update(DishViewModel model, CancellationToken token)
     {
         if (!ModelState.IsValid) 
             return View("Edit", model);
         
-        var product = _mapper.Map<Product>(model);
-        await _productDatabaseService.UpdateAsync(product, token);
+        var product = _mapper.Map<Dish>(model);
+        await _productRepository.UpdateAsync(product, token);
         return RedirectToAction("All");
     }
 
     public async Task<IActionResult> Delete(Guid id, CancellationToken token)
     {
-        await _productDatabaseService.DeleteAsync(id, token);
+        await _productRepository.DeleteAsync(id, token);
         
         return RedirectToAction("Index");
     }

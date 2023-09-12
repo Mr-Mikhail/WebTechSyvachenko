@@ -1,4 +1,4 @@
-using OnlineShop.Application.Services;
+using OnlineShop.Application.Repositories;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 
@@ -8,8 +8,9 @@ public static class ServicesRegistry
 {
     public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
-        services.AddScoped<IDatabaseService<Product>, ProductDatabaseService>();
-        services.AddScoped<IDatabaseService<Review>, ReviewDatabaseService>();
+        services.AddScoped<IRepository<Dish>, ProductRepository>();
+        services.AddScoped<IRepository<Review>, ReviewRepository>();
+        services.AddScoped<IRepository<Category>, CategoryRepository>();
 
         return services;
     }

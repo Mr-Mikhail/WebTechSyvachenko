@@ -8,7 +8,10 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
-        CreateMap<Product, ProductViewModel>();
-        CreateMap<ProductViewModel, Product>();
+        CreateMap<Dish, DishViewModel>();
+        CreateMap<DishViewModel, Dish>();
+        
+        CreateMap<Category, CategoryViewModel>();
+        CreateMap<CategoryViewModel, Category>();
     }
 }

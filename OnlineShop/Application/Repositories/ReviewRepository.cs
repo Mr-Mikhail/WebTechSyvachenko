@@ -4,13 +4,13 @@ using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.Persistence;
 
-namespace OnlineShop.Application.Services;
+namespace OnlineShop.Application.Repositories;
 
-public class ReviewDatabaseService : IDatabaseService<Review>
+public class ReviewRepository : IRepository<Review>
 {
     private readonly DefaultContext _defaultContext;
 
-    public ReviewDatabaseService(DefaultContext defaultContext)
+    public ReviewRepository(DefaultContext defaultContext)
     {
         _defaultContext = defaultContext;
     }
