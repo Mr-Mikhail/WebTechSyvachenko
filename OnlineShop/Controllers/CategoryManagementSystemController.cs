@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
-using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
@@ -20,7 +20,7 @@ public class CategoryManagementSystemController : Controller
     public async Task<IActionResult> All(CancellationToken token)
     {
         var categories = await _repository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<CategoryViewModel>>(categories);
+        var viewModel = _mapper.Map<List<CategoryModel>>(categories);
 
         return View(viewModel);
     }
@@ -32,17 +32,17 @@ public class CategoryManagementSystemController : Controller
         if (category == null)
             return View("All");
 
-        var viewModel = _mapper.Map<CategoryViewModel>(category);
+        var viewModel = _mapper.Map<CategoryModel>(category);
         
         return View(viewModel);
     }
 
-    public async Task<IActionResult> Update(CategoryViewModel viewModel, CancellationToken token)
+    public async Task<IActionResult> Update(CategoryModel model, CancellationToken token)
     {
         if (!ModelState.IsValid) 
-            return View("Edit", viewModel);
+            return View("Edit", model);
         
-        var category = _mapper.Map<Category>(viewModel);
+        var category = _mapper.Map<Category>(model);
         await _repository.UpdateAsync(category, token);
         return RedirectToAction("All");
     }

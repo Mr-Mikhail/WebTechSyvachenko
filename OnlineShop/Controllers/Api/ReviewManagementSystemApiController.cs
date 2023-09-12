@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
-using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers.Api;
 
@@ -22,13 +22,13 @@ public class ReviewManagementSystemApiController : ControllerBase
     public async Task<IActionResult> GetAllReviewsAsync(CancellationToken token)
     {
         var reviews = await _reviewRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<ReviewViewModel>>(reviews);
+        var viewModel = _mapper.Map<List<ReviewModel>>(reviews);
         
         return Ok(viewModel);
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateReviewAsync(ReviewViewModel review, CancellationToken token)
+    public async Task<IActionResult> CreateReviewAsync(ReviewModel review, CancellationToken token)
     {
         var data = _mapper.Map<Review>(review);
         await _reviewRepository.CreateAsync(data, token);
@@ -37,7 +37,7 @@ public class ReviewManagementSystemApiController : ControllerBase
     }
     
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateReviewAsync(ReviewViewModel review, CancellationToken token)
+    public async Task<IActionResult> UpdateReviewAsync(ReviewModel review, CancellationToken token)
     {
         var data = _mapper.Map<Review>(review);
         await _reviewRepository.UpdateAsync(data, token);

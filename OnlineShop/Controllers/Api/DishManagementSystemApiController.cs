@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
-using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers.Api;
 
@@ -23,13 +23,13 @@ public class DishManagementSystemApiController : ControllerBase
     public async Task<IActionResult> GetAllProductsAsync(CancellationToken token)
     {
         var products = await _productRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<DishViewModel>>(products);
+        var viewModel = _mapper.Map<List<DishModel>>(products);
         
         return Ok(viewModel);
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateProductAsync(DishViewModel dish, CancellationToken token)
+    public async Task<IActionResult> CreateProductAsync(DishModel dish, CancellationToken token)
     {
         var data = _mapper.Map<Dish>(dish);
         await _productRepository.CreateAsync(data, token);
@@ -38,7 +38,7 @@ public class DishManagementSystemApiController : ControllerBase
     }
     
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateProductAsync(DishViewModel dish, CancellationToken token)
+    public async Task<IActionResult> UpdateProductAsync(DishModel dish, CancellationToken token)
     {
         var data = _mapper.Map<Dish>(dish);
         await _productRepository.UpdateAsync(data, token);

@@ -1,6 +1,6 @@
 using AutoMapper;
+using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
-using OnlineShop.ViewModels;
 
 namespace OnlineShop.Mappings;
 
@@ -8,7 +8,7 @@ public class ReviewProfile : Profile
 {
     public ReviewProfile()
     {
-        CreateMap<Review, ReviewViewModel>();
-        CreateMap<ReviewViewModel, Review>();
+        CreateMap<Review, ReviewModel>();
+        CreateMap<ReviewModel, Review>();
     }
 }

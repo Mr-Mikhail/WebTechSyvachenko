@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.ViewModels;
+namespace OnlineShop.Controllers.Dto;
 
-public class ReviewViewModel
+public class ReviewModel
 {
     [Required]
     public string Name { get; set; } = default!;
@@ -14,5 +14,6 @@ public class ReviewViewModel
     [Range(0, 5)]
     public int Stars { get; set; }
     
+    [Required]
     public Guid ProductId { get; set; }
 }

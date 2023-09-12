@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.ViewModels;
+namespace OnlineShop.Controllers.Dto;
 
-public class DishViewModel
+public class DishModel
 {
     public Guid Id { get; set; }
 
@@ -18,9 +18,9 @@ public class DishViewModel
     [Required(ErrorMessage = "Product Price is required.")]
     public double Price { get; set; }
     
-    public List<ReviewViewModel>? Reviews { get; set; }
+    public List<ReviewModel>? Reviews { get; set; }
 
-    public List<CategoryViewModel>? Categories { get; set; }
+    public List<CategoryModel>? Categories { get; set; }
 
     [Required(ErrorMessage = "Currency is required.")]
     public string Currency { get; set; } = default!;

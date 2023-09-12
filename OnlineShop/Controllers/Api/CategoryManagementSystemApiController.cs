@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
-using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers.Api;
 
@@ -22,13 +22,13 @@ public class CategoryManagementSystemApiController : ControllerBase
     public async Task<IActionResult> GetAllProductsAsync(CancellationToken token)
     {
         var products = await _categoryRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<CategoryViewModel>>(products);
+        var viewModel = _mapper.Map<List<CategoryModel>>(products);
         
         return Ok(viewModel);
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateProductAsync(CategoryViewModel category, CancellationToken token)
+    public async Task<IActionResult> CreateProductAsync(CategoryModel category, CancellationToken token)
     {
         var data = _mapper.Map<Category>(category);
         await _categoryRepository.CreateAsync(data, token);
@@ -37,7 +37,7 @@ public class CategoryManagementSystemApiController : ControllerBase
     }
     
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateProductAsync(CategoryViewModel category, CancellationToken token)
+    public async Task<IActionResult> UpdateProductAsync(CategoryModel category, CancellationToken token)
     {
         var data = _mapper.Map<Category>(category);
         await _categoryRepository.UpdateAsync(data, token);
