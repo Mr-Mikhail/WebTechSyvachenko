@@ -17,10 +17,10 @@ public class DishModel
 
     [Required(ErrorMessage = "Dish Price is required.")]
     public double Price { get; set; }
-    
-    public List<ReviewModel>? Reviews { get; set; }
 
-    public List<CategoryModel>? Categories { get; set; }
+    public List<ReviewModel> Reviews { get; set; } = new();
+
+    public List<CategoryModel> Categories { get; set; } = new();
 
     [Required(ErrorMessage = "Currency is required.")]
     public string Currency { get; set; } = default!;

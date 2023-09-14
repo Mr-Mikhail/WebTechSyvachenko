@@ -20,7 +20,7 @@ public class ReviewRepository : IRepository<Review>
         return await _defaultContext.Reviews.AsNoTracking().ToListAsync(token);
     }
 
-    public async Task<IEnumerable<Review>> GetAsync(Expression<Func<Review, bool>> query, CancellationToken token)
+    public async Task<IEnumerable<Review>> GetAsync(Expression<Func<Review, bool>> query, IFilteringOptions options, CancellationToken token)
     {
         return await _defaultContext.Reviews.Where(query).ToListAsync(token);
     }

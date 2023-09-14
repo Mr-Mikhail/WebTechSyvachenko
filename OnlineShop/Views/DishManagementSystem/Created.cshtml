@@ -1,28 +1,45 @@
-@model OnlineShop.ViewModels.DishDataViewModel
+@model OnlineShop.Controllers.Dto.DishModel
 
 <h1>Created Dish Details</h1>
 
 <div class="form-group">
     <label for="Name">Dish Name:</label>
-    <span>@Model.Dish.Name</span>
+    <span>@Model.Name</span>
 </div>
 
 <div class="form-group">
     <label for="Description">Dish Description:</label>
-    <span>@Model.Dish.Description</span>
+    <span>@Model.Description</span>
 </div>
 
 <div class="form-group">
     <label for="Photo">Dish Photo:</label>
-    <img src="@Model.Dish.Photo" alt="Dish Photo" />
+    @if(Model.Photo != null)
+    {
+        <img src="@Model.Photo" alt="Dish Photo" />
+    }
+    else
+    {
+        <span>No Photo Available</span>
+    }
 </div>
 
 <div class="form-group">
     <label for="Price">Dish Price:</label>
-    <span>@Model.Dish.Price</span>
+    <span>@Model.Price</span>
 </div>
 
 <div class="form-group">
     <label for="Currency">Currency:</label>
-    <span>@Model.Dish.Currency</span>
+    <span>@Model.Currency</span>
+</div>
+
+<div class="form-group">
+    <label for="Categories">Categories:</label>
+    <ul>
+        @foreach (var category in Model.Categories)
+        {
+            <li>@category.Name</li>
+        }
+    </ul>
 </div>

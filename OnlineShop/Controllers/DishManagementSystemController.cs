@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
@@ -42,17 +43,15 @@ public class DishManagementSystemController : Controller
 
         var categories =
             await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id),
+                FilteringOptions.AsNoTrackingInstance,
                 token) as List<Category> ?? new List<Category>();
-        
-        model.Dish.Id = Guid.NewGuid();
         var dish = _mapper.Map<Dish>(model.Dish);
-
-        model.Categories = _mapper.Map<List<CategoryModel>>(categories);
         dish.Categories = categories;
-        
         await _dishRepository.CreateAsync(dish, token);
 
-        return View("Created", model);
+        var viewModel = _mapper.Map<DishModel>(dish);
+        
+        return View("Created", viewModel);
     }
 
     public async Task<IActionResult> All(CancellationToken token)
@@ -65,24 +64,39 @@ public class DishManagementSystemController : Controller
     
     public async Task<IActionResult> Edit(Guid id, CancellationToken token)
     {
-        var dishes = await _dishRepository.GetAsync(x => x.Id == id, token);
+        var dishes =
+            await _dishRepository.GetAsync(x => x.Id == id, FilteringOptions.AsNoTrackingInstance, token);
 
         var dish = dishes.FirstOrDefault();
         if (dish == null)
             return View("Index");
         
-        var viewModel = _mapper.Map<DishModel>(dish);
+        var model = _mapper.Map<DishModel>(dish);
+        
+        // TODO: Remove the code duplication
+        var viewModel = new DishDataViewModel
+        {
+            Dish = model,
+            Categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllAsync(token)),
+            SelectedCategoryIds = model.Categories.Select(x => x.Id).ToList()
+        };
         
         return View(viewModel);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Update(DishModel model, CancellationToken token)
+    public async Task<IActionResult> Update(DishDataViewModel model, CancellationToken token)
     {
         if (!ModelState.IsValid) 
             return View("Edit", model);
         
-        var dish = _mapper.Map<Dish>(model);
+        // TODO: Resolve an issue with AsNoTracking and tracked dish
+        var categories =
+            (await _categoryRepository.GetAllAsync(token)).Where(x => model.SelectedCategoryIds.Contains(x.Id)) as
+                List<Category> ?? new List<Category>();
+        
+        var dish = _mapper.Map<Dish>(model.Dish);
+        dish.Categories = categories;
         await _dishRepository.UpdateAsync(dish, token);
         return RedirectToAction("All");
     }

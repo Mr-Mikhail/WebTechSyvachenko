@@ -15,6 +15,12 @@ public class DefaultContext : DbContext
     public DbSet<Review> Reviews { get; set; } = default!;
     public DbSet<Category> Categories { get; set; } = default!;
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+        base.OnConfiguring(optionsBuilder);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Photo>().ToTable("Photos");

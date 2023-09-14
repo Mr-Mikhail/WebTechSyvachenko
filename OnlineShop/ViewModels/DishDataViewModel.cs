@@ -10,5 +10,6 @@ public class DishDataViewModel
 
     public List<CategoryModel> Categories { get; set; } = new();
     
+    // ReSharper disable once CollectionNeverUpdated.Global
     public List<Guid> SelectedCategoryIds { get; set; } = new();
 }

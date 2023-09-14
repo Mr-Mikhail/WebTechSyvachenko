@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
@@ -28,7 +29,7 @@ public class DishController : Controller
 
     public async Task<IActionResult> Details(Guid id, CancellationToken token)
     {
-        var dish = (await _dishRepository.GetAsync(x => x.Id == id, token)).FirstOrDefault();
+        var dish = (await _dishRepository.GetAsync(x => x.Id == id, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
         if (dish == null)
             RedirectToAction("Index");
 

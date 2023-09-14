@@ -14,6 +14,6 @@ public class Category
     
     [MaxLength(1000)]
     public string? Description { get; set; }
-    
-    public List<Dish> Dishes { get; set; }
+
+    public List<Dish> Dishes { get; set; } = new();
 }

@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Application.Models;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.Persistence;
@@ -20,9 +21,17 @@ public class CategoryRepository : IRepository<Category>
         return await _defaultContext.Categories.AsNoTracking().ToListAsync(token);
     }
 
-    public async Task<IEnumerable<Category>> GetAsync(Expression<Func<Category, bool>> query, CancellationToken token)
+    public async Task<IEnumerable<Category>> GetAsync(Expression<Func<Category, bool>> query, IFilteringOptions? options, CancellationToken token)
     {
-        return await _defaultContext.Categories.Where(query).ToListAsync(token);
+        var result = _defaultContext.Categories.Include(x => x.Dishes).Where(query);
+        
+        if (options == null || options is FilteringOptions specificOptions == false)
+            return await result.ToListAsync(token);
+
+        if (specificOptions.AsNoTracking)
+            result = result.AsNoTracking();
+
+        return await result.ToListAsync(token);
     }
 
     public async Task<Category> CreateAsync(Category item, CancellationToken token)

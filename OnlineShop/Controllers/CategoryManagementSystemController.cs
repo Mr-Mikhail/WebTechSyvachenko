@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
@@ -27,7 +28,9 @@ public class CategoryManagementSystemController : Controller
 
     public async Task<IActionResult> Edit(Guid id, CancellationToken token)
     {
-        var categories = await _repository.GetAsync(x => x.Id == id, token);
+        var categories =
+            await _repository.GetAsync(x => x.Id == id, FilteringOptions.AsNoTrackingInstance, token);
+        
         var category = categories.FirstOrDefault();
         if (category == null)
             return View("All");
