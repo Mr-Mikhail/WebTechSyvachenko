@@ -1,8 +1,6 @@
 name: Test
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_run:
     workflows: ["Build and deploy ASP.Net Core app to Azure Web App - sivach"]
     types:
@@ -14,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Azure Deploy Completes And Warms Up
-        run: sleep 60
+        run: sleep 300
 
       - name: Checkout branch
         uses: actions/checkout@v1
