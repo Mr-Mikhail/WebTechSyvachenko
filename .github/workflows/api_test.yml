@@ -1,0 +1,19 @@
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  Linux:
+    name: Validate API spec
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1
+      - uses: kong/setup-inso@v1
+        with:
+          inso-version: 3.5.0
+
+      - name: Run test suitess
+        run: inso run test "sivach.yaml" --ci --env "Production" --src ./Tests/insomnia.json

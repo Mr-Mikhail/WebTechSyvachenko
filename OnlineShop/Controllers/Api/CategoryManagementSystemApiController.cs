@@ -17,39 +17,83 @@ public class CategoryManagementSystemApiController : ControllerBase
         _categoryRepository = categoryRepository;
         _mapper = mapper;
     }
-    
+
     [HttpGet(Routes.All)]
     public async Task<IActionResult> GetAllDishesAsync(CancellationToken token)
     {
-        var dishes = await _categoryRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<CategoryModel>>(dishes);
-        
-        return Ok(viewModel);
+        try
+        {
+            var dishes = await _categoryRepository.GetAllAsync(token);
+            var viewModel = _mapper.Map<List<CategoryModel>>(dishes);
+
+            return Ok(viewModel);
+        }
+        catch
+        {
+            return NotFound("Failed to get all dishes.");
+        }
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateDishAsync(CategoryModel category, CancellationToken token)
+    public async Task<IActionResult> CreateDishAsync([FromBody] CategoryModel category, CancellationToken token)
     {
-        var data = _mapper.Map<Category>(category);
-        await _categoryRepository.CreateAsync(data, token);
-        
-        return Ok();
-    }
-    
-    [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateDishAsync(CategoryModel category, CancellationToken token)
-    {
-        var data = _mapper.Map<Category>(category);
-        await _categoryRepository.UpdateAsync(data, token);
-        
-        return Ok();
-    }
-    
-    [HttpPost(Routes.Delete)]
-    public async Task<IActionResult> DeleteDishAsync(Guid id, CancellationToken token)
-    {
-        await _categoryRepository.DeleteAsync(id, token);
+        if (!ModelState.IsValid)
+            return BadRequest("Invalid category.");
 
-        return Ok();
+        if (category.DishId == Guid.Empty)
+            return BadRequest("Invalid id");
+
+        try
+        {
+            var data = _mapper.Map<Category>(category);
+            await _categoryRepository.CreateAsync(data, token);
+
+            return Ok();
+        }
+        catch
+        {
+            return BadRequest("Failed to create dish.");
+        }
+    }
+
+    [HttpPost(Routes.Update)]
+    public async Task<IActionResult> UpdateDishAsync([FromBody] CategoryModel category, CancellationToken token)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest("Invalid category.");
+
+        if (category.Id == Guid.Empty || category.DishId == Guid.Empty)
+            return BadRequest("Invalid id");
+
+        try
+        {
+            var data = _mapper.Map<Category>(category);
+            await _categoryRepository.UpdateAsync(data, token);
+
+            return Ok();
+        }
+        catch
+        {
+            return BadRequest("Failed to update dish.");
+        }
+    }
+
+    [HttpDelete(Routes.Delete)]
+    public async Task<IActionResult> DeleteDishAsync([FromQuery] Guid id, CancellationToken token)
+    {
+        if (id == Guid.Empty)
+            return BadRequest("Invalid id");
+
+        try
+        {
+
+            await _categoryRepository.DeleteAsync(id, token);
+
+            return Ok();
+        }
+        catch
+        {
+            return BadRequest("Failed to delete the dish.");
+        }
     }
 }
