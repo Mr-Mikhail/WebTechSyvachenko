@@ -3,12 +3,19 @@ name: Test
 on:
   push:
     branches: [ "main" ]
+  workflow_run:
+    workflows: ["Build and deploy ASP.Net Core app to Azure Web App - sivach"]
+    types:
+      - completed
 
 jobs:
   Linux:
     name: Validate API spec
     runs-on: ubuntu-latest
     steps:
+      - name: Azure Deploy Completes And Warms Up
+        run: sleep 60
+
       - name: Checkout branch
         uses: actions/checkout@v1
       - uses: kong/setup-inso@v1
