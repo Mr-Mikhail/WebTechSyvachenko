@@ -1,31 +1,31 @@
 @model OnlineShop.Controllers.Dto.DishModel
 
-<h1>Edit Product</h1>
+<h1>Edit Dish</h1>
 
 @using (Html.BeginForm("Update", "DishManagementSystem", FormMethod.Post))
 {
     @Html.HiddenFor(model => model.Id)
     
     <div class="form-group">
-        <label for="ProductName">Product Name:</label>
+        <label for="Name">Dish Name:</label>
         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        <label for="ProductDescription">Product Description:</label>
+        <label for="Description">Dish Description:</label>
         @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 4 })
         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        <label for="ProductPhoto">Product Photo:</label>
-        <input type="file" name="ProductPhoto" id="ProductPhoto" class="form-control-file" />
+        <label for="Photo">Dish Photo:</label>
+        <input type="file" name="Photo" id="Photo" class="form-control-file" />
         @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger", type = "image" })
     </div>
 
     <div class="form-group">
-        <label for="ProductPrice">Product Price:</label>
+        <label for="Price">Dish Price:</label>
         @Html.TextBoxFor(model => model.Price, new { @class = "form-control", min = 0.01, type = "number", step = "0.01" })
         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
     </div>
@@ -43,13 +43,13 @@
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
                                                        
-    <button type="button" class="btn btn-danger" id="deleteButton">Delete Product</button>
+    <button type="button" class="btn btn-danger" id="deleteButton">Delete Dish</button>
 }
 
 @section Scripts {
     <script>
         document.getElementById('deleteButton').addEventListener('click', function() {
-            if (confirm('Are you sure you want to delete this product?')) {
+            if (confirm('Are you sure you want to delete this dish?')) {
                 window.location.href = '@Url.Action("Delete", "DishManagementSystem", new { id = Model.Id })';
             }
         });

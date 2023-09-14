@@ -19,7 +19,7 @@ public class Review
     [Range(0, 5)]
     public int Stars { get; set; }
     
-    public Guid ProductId { get; set; }
+    public Guid DishId { get; set; }
 
     public Dish Dish { get; set; } = default!;
 }

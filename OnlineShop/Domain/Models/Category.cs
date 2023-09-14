@@ -15,7 +15,5 @@ public class Category
     [MaxLength(1000)]
     public string? Description { get; set; }
     
-    public Guid ProductId { get; set; }
-
-    public Dish Dish { get; set; } = default!;
+    public List<Dish> Dishes { get; set; }
 }

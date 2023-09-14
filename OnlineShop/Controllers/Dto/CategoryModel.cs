@@ -11,5 +11,5 @@ public class CategoryModel
     
     public string? Description { get; set; }
     
-    public Guid ProductId { get; set; }
+    public Guid DishId { get; set; }
 }

@@ -15,5 +15,5 @@ public class ReviewModel
     public int Stars { get; set; }
     
     [Required]
-    public Guid ProductId { get; set; }
+    public Guid DishId { get; set; }
 }

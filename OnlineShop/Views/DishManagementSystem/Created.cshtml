@@ -1,28 +1,28 @@
-@model OnlineShop.Controllers.Dto.DishModel
+@model OnlineShop.ViewModels.DishDataViewModel
 
-<h1>Product Details</h1>
+<h1>Created Dish Details</h1>
 
 <div class="form-group">
-    <label for="ProductName">Product Name:</label>
-    <span>@Model.Name</span>
+    <label for="Name">Dish Name:</label>
+    <span>@Model.Dish.Name</span>
 </div>
 
 <div class="form-group">
-    <label for="ProductDescription">Product Description:</label>
-    <span>@Model.Description</span>
+    <label for="Description">Dish Description:</label>
+    <span>@Model.Dish.Description</span>
 </div>
 
 <div class="form-group">
-    <label for="ProductPhoto">Product Photo:</label>
-    <img src="@Model.Photo" alt="Product Photo" />
+    <label for="Photo">Dish Photo:</label>
+    <img src="@Model.Dish.Photo" alt="Dish Photo" />
 </div>
 
 <div class="form-group">
-    <label for="ProductPrice">Product Price:</label>
-    <span>@Model.Price</span>
+    <label for="Price">Dish Price:</label>
+    <span>@Model.Dish.Price</span>
 </div>
 
 <div class="form-group">
     <label for="Currency">Currency:</label>
-    <span>@Model.Currency</span>
+    <span>@Model.Dish.Currency</span>
 </div>

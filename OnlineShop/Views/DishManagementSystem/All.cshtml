@@ -1,29 +1,29 @@
 @model List<OnlineShop.Controllers.Dto.DishModel>
 
-<h1>Product List</h1>
+<h1>Dish List</h1>
 
 @if (Model.Count > 0)
 {
     <table class="table">
         <thead>
         <tr>
-            <th>Product Name</th>
-            <th>Product Description</th>
-            <th>Product Price</th>
+            <th>Dish Name</th>
+            <th>Dish Description</th>
+            <th>Dish Price</th>
             <th>Currency</th>
-            <th>Edit Product</th>
+            <th>Edit Dish</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var product in Model)
+        @foreach (var dish in Model)
         {
             <tr>
-                <td>@product.Name</td>
-                <td>@product.Description</td>
-                <td>@product.Price</td>
-                <td>@product.Currency</td>
+                <td>@dish.Name</td>
+                <td>@dish.Description</td>
+                <td>@dish.Price</td>
+                <td>@dish.Currency</td>
                 <td>
-                    <a href="@Url.Action("Edit", "DishManagementSystem", new { id = product.Id })">Edit</a>
+                    <a href="@Url.Action("Edit", "DishManagementSystem", new { id = dish.Id })">Edit</a>
                 </td>
             </tr>
         }
@@ -32,5 +32,5 @@
 }
 else
 {
-    <p>No products available.</p>
+    <p>No dishes available.</p>
 }

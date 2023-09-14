@@ -8,7 +8,7 @@ public static class ServicesRegistry
 {
     public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
-        services.AddScoped<IRepository<Dish>, ProductRepository>();
+        services.AddScoped<IRepository<Dish>, DishRepository>();
         services.AddScoped<IRepository<Review>, ReviewRepository>();
         services.AddScoped<IRepository<Category>, CategoryRepository>();
 

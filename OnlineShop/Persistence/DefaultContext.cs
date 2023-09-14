@@ -10,10 +10,10 @@ public class DefaultContext : DbContext
     {
     }
 
-    public DbSet<Dish> Products { get; set; }
-    public DbSet<Photo> Photos { get; set; }
-    public DbSet<Review> Reviews { get; set; }
-    public DbSet<Category> Categories { get; set; }
+    public DbSet<Dish> Dishes { get; set; } = default!;
+    public DbSet<Photo> Photos { get; set; } = default!;
+    public DbSet<Review> Reviews { get; set; } = default!;
+    public DbSet<Category> Categories { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,17 +22,20 @@ public class DefaultContext : DbContext
         modelBuilder.Entity<Dish>()
             .HasOne(p => p.Photo)
             .WithOne(p => p.Dish)
-            .HasForeignKey<Photo>(p => p.ProductId);
+            .HasForeignKey<Photo>(p => p.DishId);
 
         modelBuilder.Entity<Review>()
             .HasOne(p => p.Dish)
             .WithMany(p => p.Reviews)
-            .HasForeignKey(p => p.ProductId);
+            .HasForeignKey(p => p.DishId);
+
+        modelBuilder.Entity<Category>()
+            .HasIndex(u => u.Name)
+            .IsUnique();
         
         modelBuilder.Entity<Category>()
-            .HasOne(p => p.Dish)
-            .WithMany(p => p.Categories)
-            .HasForeignKey(p => p.ProductId);
+            .HasMany(p => p.Dishes)
+            .WithMany(p => p.Categories);
         
         base.OnModelCreating(modelBuilder);
     }

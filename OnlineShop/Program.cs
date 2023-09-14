@@ -48,7 +48,8 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<DefaultContext>();
     context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
+    DbInitializer.InitializeCategories(context);
+    DbInitializer.InitializeDishes(context);
 }
 
 app.UseHttpsRedirection();

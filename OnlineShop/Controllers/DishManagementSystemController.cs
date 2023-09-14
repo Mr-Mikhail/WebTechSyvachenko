@@ -3,18 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Controllers.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
+using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
 public class DishManagementSystemController : Controller
 {
     private readonly IRepository<Dish> _dishRepository;
+    private readonly IRepository<Category> _categoryRepository;
     private readonly IMapper _mapper;
 
-    public DishManagementSystemController(IRepository<Dish> dishRepository, IMapper mapper)
+    public DishManagementSystemController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Category> categoryRepository)
     {
         _dishRepository = dishRepository;
         _mapper = mapper;
+        _categoryRepository = categoryRepository;
     }
 
     public IActionResult Index()
@@ -22,27 +25,34 @@ public class DishManagementSystemController : Controller
         return View();
     }
     
-    public IActionResult Create()
+    public async Task<IActionResult> Create(CancellationToken token)
     {
-        return View();
+        var viewModel = new DishDataViewModel
+        {
+            Categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllAsync(token))
+        };
+
+        return View(viewModel);
     }
 
-    public async Task<IActionResult> SaveAsync(DishModel model, CancellationToken token)
+    public async Task<IActionResult> SaveAsync(DishDataViewModel model, CancellationToken token)
     {
         if (!ModelState.IsValid) 
             return RedirectToAction("Create");
-        
-        model.Id = Guid.NewGuid();
 
-        var dish = _mapper.Map<Dish>(model);
-        await _dishRepository.CreateAsync(dish, token);
+        var categories =
+            await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id),
+                token) as List<Category> ?? new List<Category>();
         
-        return RedirectToAction("Created", model);
-    }
-    
-    public IActionResult Created(DishModel model)
-    {
-        return View(model);
+        model.Dish.Id = Guid.NewGuid();
+        var dish = _mapper.Map<Dish>(model.Dish);
+
+        model.Categories = _mapper.Map<List<CategoryModel>>(categories);
+        dish.Categories = categories;
+        
+        await _dishRepository.CreateAsync(dish, token);
+
+        return View("Created", model);
     }
 
     public async Task<IActionResult> All(CancellationToken token)

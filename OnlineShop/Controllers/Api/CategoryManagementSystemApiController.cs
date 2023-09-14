@@ -19,16 +19,16 @@ public class CategoryManagementSystemApiController : ControllerBase
     }
     
     [HttpGet(Routes.All)]
-    public async Task<IActionResult> GetAllProductsAsync(CancellationToken token)
+    public async Task<IActionResult> GetAllDishesAsync(CancellationToken token)
     {
-        var products = await _categoryRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<CategoryModel>>(products);
+        var dishes = await _categoryRepository.GetAllAsync(token);
+        var viewModel = _mapper.Map<List<CategoryModel>>(dishes);
         
         return Ok(viewModel);
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateProductAsync(CategoryModel category, CancellationToken token)
+    public async Task<IActionResult> CreateDishAsync(CategoryModel category, CancellationToken token)
     {
         var data = _mapper.Map<Category>(category);
         await _categoryRepository.CreateAsync(data, token);
@@ -37,7 +37,7 @@ public class CategoryManagementSystemApiController : ControllerBase
     }
     
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateProductAsync(CategoryModel category, CancellationToken token)
+    public async Task<IActionResult> UpdateDishAsync(CategoryModel category, CancellationToken token)
     {
         var data = _mapper.Map<Category>(category);
         await _categoryRepository.UpdateAsync(data, token);
@@ -46,7 +46,7 @@ public class CategoryManagementSystemApiController : ControllerBase
     }
     
     [HttpPost(Routes.Delete)]
-    public async Task<IActionResult> DeleteProductAsync(Guid id, CancellationToken token)
+    public async Task<IActionResult> DeleteDishAsync(Guid id, CancellationToken token)
     {
         await _categoryRepository.DeleteAsync(id, token);
 

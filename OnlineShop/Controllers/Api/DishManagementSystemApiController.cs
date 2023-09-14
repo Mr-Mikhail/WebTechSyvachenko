@@ -9,47 +9,47 @@ namespace OnlineShop.Controllers.Api;
 [Route(Routes.DishManagementSystem)]
 public class DishManagementSystemApiController : ControllerBase
 {
-    private readonly IRepository<Dish> _productRepository;
+    private readonly IRepository<Dish> _dishRepository;
 
     private readonly IMapper _mapper;
 
-    public DishManagementSystemApiController(IRepository<Dish> productRepository, IMapper mapper)
+    public DishManagementSystemApiController(IRepository<Dish> dishRepository, IMapper mapper)
     {
-        _productRepository = productRepository;
+        _dishRepository = dishRepository;
         _mapper = mapper;
     }
 
     [HttpGet(Routes.All)]
-    public async Task<IActionResult> GetAllProductsAsync(CancellationToken token)
+    public async Task<IActionResult> GetAllDishesAsync(CancellationToken token)
     {
-        var products = await _productRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<DishModel>>(products);
+        var dishes = await _dishRepository.GetAllAsync(token);
+        var viewModel = _mapper.Map<List<DishModel>>(dishes);
         
         return Ok(viewModel);
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateProductAsync(DishModel dish, CancellationToken token)
+    public async Task<IActionResult> CreateDishAsync(DishModel dish, CancellationToken token)
     {
         var data = _mapper.Map<Dish>(dish);
-        await _productRepository.CreateAsync(data, token);
+        await _dishRepository.CreateAsync(data, token);
         
         return Ok();
     }
     
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateProductAsync(DishModel dish, CancellationToken token)
+    public async Task<IActionResult> UpdateDishAsync(DishModel dish, CancellationToken token)
     {
         var data = _mapper.Map<Dish>(dish);
-        await _productRepository.UpdateAsync(data, token);
+        await _dishRepository.UpdateAsync(data, token);
         
         return Ok();
     }
     
     [HttpPost(Routes.Delete)]
-    public async Task<IActionResult> DeleteProductAsync(Guid id, CancellationToken token)
+    public async Task<IActionResult> DeleteDishAsync(Guid id, CancellationToken token)
     {
-        await _productRepository.DeleteAsync(id, token);
+        await _dishRepository.DeleteAsync(id, token);
 
         return Ok();
     }

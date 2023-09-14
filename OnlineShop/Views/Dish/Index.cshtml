@@ -5,18 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="product-container">
+<div class="dish-container">
     <h1>Welcome to Sivach Shop!</h1>
     
-    <div class="product-container">
+    <div class="dish-container">
         <div class="column">
-            @foreach (var product in Model)
+            @foreach (var dish in Model)
             {
-                <div class="product-card">
-                    <h2>@product.Name</h2>
-                    <p>@product.Description</p>
-                    <p class="price">Price: @product.Price @product.Currency</p>
-                    <a href="@Url.Action("Details", "Dish", new { id = product.Id })" class="details-link">View Details</a>
+                <div class="dish-card">
+                    <h2>@dish.Name</h2>
+                    <p>@dish.Description</p>
+                    <p class="price">Price: @dish.Price @dish.Currency</p>
+                    <a href="@Url.Action("Details", "Dish", new { id = dish.Id })" class="details-link">View Details</a>
                 </div>
             }
         </div>

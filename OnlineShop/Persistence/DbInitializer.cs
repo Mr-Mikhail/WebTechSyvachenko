@@ -4,14 +4,14 @@ namespace OnlineShop.Persistence;
 
 public static class DbInitializer
 {
-    public static void Initialize(DefaultContext context)
+    public static void InitializeDishes(DefaultContext context)
     {
-        if (context.Products.Any())
+        if (context.Dishes.Any())
         {
             return;
         }
 
-        var products = new Dish[]
+        var dishes = new Dish[]
         {
             new()
             {
@@ -20,8 +20,8 @@ public static class DbInitializer
                 Price = 6.99,
                 Categories = new List<Category>
                 {
-                    new() { Name = "Main Course" },
-                    new() { Name = "Grilled" }
+                    context.Categories.First(c => c.Name == "Main Course"),
+                    context.Categories.First(c => c.Name == "Grilled")
                 },
                 Currency = "EUR",
                 Reviews = new List<Review>
@@ -42,8 +42,8 @@ public static class DbInitializer
                 Price = 4.50,
                 Categories = new List<Category>
                 {
-                    new() { Name = "Dessert" },
-                    new() { Name = "Pastry" }
+                    context.Categories.First(c => c.Name == "Dessert"),
+                    context.Categories.First(c => c.Name == "Pastry"),
                 },
                 Currency = "EUR",
                 Reviews = new List<Review>
@@ -63,8 +63,8 @@ public static class DbInitializer
                 Price = 9.99,
                 Categories = new List<Category>
                 {
-                    new() { Name = "Main Course" },
-                    new() { Name = "Grilled" }
+                    context.Categories.First(c => c.Name == "Main Course"),
+                    context.Categories.First(c => c.Name == "Grilled"),
                 },
                 Currency = "EUR",
                 Reviews = new List<Review>
@@ -85,8 +85,8 @@ public static class DbInitializer
                 Price = 12.50,
                 Categories = new List<Category>
                 {
-                    new() { Name = "Appetizer" },
-                    new() { Name = "Vegetarian" }
+                    context.Categories.First(c => c.Name == "Appetizer"),
+                    context.Categories.First(c => c.Name == "Vegetarian"),
                 },
                 Currency = "EUR",
                 Reviews = new List<Review>
@@ -106,8 +106,8 @@ public static class DbInitializer
                 Price = 10.99,
                 Categories = new List<Category>
                 {
-                    new() { Name = "Main Course" },
-                    new() { Name = "Dumplings" }
+                    context.Categories.First(c => c.Name == "Main Course"),
+                    context.Categories.First(c => c.Name == "Dumplings"),
                 },
                 Currency = "EUR",
                 Reviews = new List<Review>
@@ -127,8 +127,8 @@ public static class DbInitializer
                 Price = 6.50,
                 Categories = new List<Category>
                 {
-                    new() { Name = "Dessert" },
-                    new() { Name = "Candy" }
+                    context.Categories.First(c => c.Name == "Dessert"),
+                    context.Categories.First(c => c.Name == "Candy"),
                 },
                 Currency = "EUR",
                 Reviews = new List<Review>
@@ -143,7 +143,30 @@ public static class DbInitializer
             }
         };
 
-        context.Products.AddRange(products);
+        context.Dishes.AddRange(dishes);
+        context.SaveChanges();
+    }
+
+    public static void InitializeCategories(DefaultContext context)
+    {
+        if (context.Categories.Any())
+        {
+            return;
+        }
+
+        var categories = new Category[]
+        {
+            new() { Name = "Main Course" },
+            new() { Name = "Grilled" },
+            new() { Name = "Dessert" },
+            new() { Name = "Candy" },
+            new() { Name = "Pastry" },
+            new() { Name = "Appetizer" },
+            new() { Name = "Vegetarian" },
+            new() { Name = "Dumplings" },
+        };
+        
+        context.Categories.AddRange(categories);
         context.SaveChanges();
     }
 }

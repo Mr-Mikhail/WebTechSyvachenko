@@ -4,9 +4,9 @@ using OnlineShop.Domain.Models;
 
 namespace OnlineShop.Mappings;
 
-public class ProductProfile : Profile
+public class DishProfile : Profile
 {
-    public ProductProfile()
+    public DishProfile()
     {
         CreateMap<Dish, DishModel>();
         CreateMap<DishModel, Dish>();
