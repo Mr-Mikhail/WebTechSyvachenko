@@ -1,4 +1,4 @@
-namespace OnlineShop.Controllers.Api;
+namespace OnlineShop.Controllers;
 
 public static class Routes
 {
@@ -9,6 +9,7 @@ public static class Routes
     public const string CategoryManagementSystem = "/cms";
 
     public const string All = "all";
+    public const string Filtered = "filtered";
     public const string Create = "create";
     public const string Update = "update";
     public const string Delete = "delete";

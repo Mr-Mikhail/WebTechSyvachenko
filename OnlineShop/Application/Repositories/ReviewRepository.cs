@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Application.Models;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.Persistence;
@@ -20,9 +21,17 @@ public class ReviewRepository : IRepository<Review>
         return await _defaultContext.Reviews.AsNoTracking().ToListAsync(token);
     }
 
-    public async Task<IEnumerable<Review>> GetAsync(Expression<Func<Review, bool>> query, IFilteringOptions options, CancellationToken token)
-    {
-        return await _defaultContext.Reviews.Where(query).ToListAsync(token);
+    public async Task<IEnumerable<Review>> GetAsync(Expression<Func<Review, bool>> query, IFilteringOptions? options, CancellationToken token)
+    {       
+        var result = _defaultContext.Reviews.Include(x => x.Dish).Where(query);
+
+        if (options == null || options is FilteringOptions specificOptions == false)
+            return await result.ToListAsync(token);
+
+        if (specificOptions.Pagination != null)
+            result = result.Skip(specificOptions.Pagination.Skip).Take(specificOptions.Pagination.Take);
+
+        return await result.ToListAsync(token);
     }
 
     public async Task<Review> CreateAsync(Review item, CancellationToken token)

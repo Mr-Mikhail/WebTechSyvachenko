@@ -1,6 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using OnlineShop.Controllers.Api.Category.Dto;
+using OnlineShop.Controllers.Api.Review.Dto;
+using OnlineShop.ViewModels;
 
-namespace OnlineShop.Controllers.Dto;
+namespace OnlineShop.Controllers.Api.Dish.Dto;
 
 public class DishModel
 {
@@ -20,7 +23,7 @@ public class DishModel
 
     public List<ReviewModel> Reviews { get; set; } = new();
 
-    public List<CategoryModel> Categories { get; set; } = new();
+    public List<CategoryViewModel> Categories { get; set; } = new();
 
     [Required(ErrorMessage = "Currency is required.")]
     public string Currency { get; set; } = default!;

@@ -1,7 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Models;
-using OnlineShop.Controllers.Dto;
+using OnlineShop.Controllers.Api.Dish.Dto;
+using OnlineShop.Controllers.Api.Review.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 

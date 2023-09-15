@@ -1,7 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Models;
-using OnlineShop.Controllers.Dto;
+using OnlineShop.Controllers.Api.Category.Dto;
+using OnlineShop.Controllers.Api.Dish.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.ViewModels;
@@ -30,7 +31,7 @@ public class DishManagementSystemController : Controller
     {
         var viewModel = new DishDataViewModel
         {
-            Categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllAsync(token))
+            Categories = _mapper.Map<List<CategoryViewModel>>(await _categoryRepository.GetAllAsync(token))
         };
 
         return View(viewModel);
@@ -77,7 +78,7 @@ public class DishManagementSystemController : Controller
         var viewModel = new DishDataViewModel
         {
             Dish = model,
-            Categories = _mapper.Map<List<CategoryModel>>(await _categoryRepository.GetAllAsync(token)),
+            Categories = _mapper.Map<List<CategoryViewModel>>(await _categoryRepository.GetAllAsync(token)),
             SelectedCategoryIds = model.Categories.Select(x => x.Id).ToList()
         };
         

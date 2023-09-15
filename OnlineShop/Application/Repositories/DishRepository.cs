@@ -31,6 +31,9 @@ public class DishRepository : IRepository<Dish>
 
         if (specificOptions.AsNoTracking)
             result = result.AsNoTracking();
+        
+        if (specificOptions.Pagination != null)
+            result = result.Skip(specificOptions.Pagination.Skip).Take(specificOptions.Pagination.Take);
             
         return await result.ToListAsync(token);
     }

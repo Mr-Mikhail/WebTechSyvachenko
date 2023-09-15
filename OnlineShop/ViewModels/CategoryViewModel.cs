@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Controllers.Dto;
+namespace OnlineShop.ViewModels;
 
-public class CategoryModel
+public class CategoryViewModel
 {
     public Guid Id { get; set; }
 

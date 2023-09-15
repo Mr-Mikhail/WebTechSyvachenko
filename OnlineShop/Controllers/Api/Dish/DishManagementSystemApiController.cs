@@ -1,19 +1,20 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Controllers.Dto;
+using OnlineShop.Application.Models;
+using OnlineShop.Controllers.Api.Dish.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 
-namespace OnlineShop.Controllers.Api;
+namespace OnlineShop.Controllers.Api.Dish;
 
 [Route(Routes.DishManagementSystem)]
 public class DishManagementSystemApiController : ControllerBase
 {
-    private readonly IRepository<Dish> _dishRepository;
+    private readonly IRepository<Domain.Models.Dish> _dishRepository;
 
     private readonly IMapper _mapper;
 
-    public DishManagementSystemApiController(IRepository<Dish> dishRepository, IMapper mapper)
+    public DishManagementSystemApiController(IRepository<Domain.Models.Dish> dishRepository, IMapper mapper)
     {
         _dishRepository = dishRepository;
         _mapper = mapper;
@@ -25,9 +26,25 @@ public class DishManagementSystemApiController : ControllerBase
         try
         {
             var dishes = await _dishRepository.GetAllAsync(token);
-            var viewModel = _mapper.Map<List<DishModel>>(dishes);
+            var response = _mapper.Map<List<DishApiResponse>>(dishes);
 
-            return Ok(viewModel);
+            return Ok(response);
+        }
+        catch
+        {
+            return NotFound("Failed to get all dishes");
+        }
+    }
+    
+    [HttpGet(Routes.Filtered)]
+    public async Task<IActionResult> GetFilteredDishesAsync([FromBody] PaginationModel model, CancellationToken token)
+    {
+        try
+        {
+            var dishes = await _dishRepository.GetAsync(_ => true, new FilteringOptions(model), token);
+            var response = _mapper.Map<List<DishApiResponse>>(dishes);
+
+            return Ok(response);
         }
         catch
         {
@@ -36,11 +53,11 @@ public class DishManagementSystemApiController : ControllerBase
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateDishAsync([FromBody] DishModel dish, CancellationToken token)
+    public async Task<IActionResult> CreateDishAsync([FromBody] DishApiRequest dish, CancellationToken token)
     {
         try
         {
-            var data = _mapper.Map<Dish>(dish);
+            var data = _mapper.Map<Domain.Models.Dish>(dish);
             await _dishRepository.CreateAsync(data, token);
 
             return Ok();
@@ -52,11 +69,14 @@ public class DishManagementSystemApiController : ControllerBase
     }
 
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateDishAsync([FromBody] DishModel dish, CancellationToken token)
+    public async Task<IActionResult> UpdateDishAsync([FromBody] DishApiRequest dish, CancellationToken token)
     {
+        if (dish.Id == Guid.Empty)
+            return BadRequest("Dish not specified");
+        
         try
         {
-            var data = _mapper.Map<Dish>(dish);
+            var data = _mapper.Map<Domain.Models.Dish>(dish);
             await _dishRepository.UpdateAsync(data, token);
 
             return Ok();
@@ -67,7 +87,7 @@ public class DishManagementSystemApiController : ControllerBase
         }
     }
 
-    [HttpPost(Routes.Delete)]
+    [HttpDelete(Routes.Delete)]
     public async Task<IActionResult> DeleteDishAsync([FromQuery] Guid id, CancellationToken token)
     {
         try

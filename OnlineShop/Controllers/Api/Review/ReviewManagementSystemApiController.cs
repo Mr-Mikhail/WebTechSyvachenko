@@ -1,18 +1,19 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Controllers.Dto;
+using OnlineShop.Application.Models;
+using OnlineShop.Controllers.Api.Review.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 
-namespace OnlineShop.Controllers.Api;
+namespace OnlineShop.Controllers.Api.Review;
 
 [Route(Routes.ReviewManagementSystem)]
 public class ReviewManagementSystemApiController : ControllerBase
 {
-    private readonly IRepository<Review> _reviewRepository;
+    private readonly IRepository<Domain.Models.Review> _reviewRepository;
     private readonly IMapper _mapper;
 
-    public ReviewManagementSystemApiController(IRepository<Review> reviewRepository, IMapper mapper)
+    public ReviewManagementSystemApiController(IRepository<Domain.Models.Review> reviewRepository, IMapper mapper)
     {
         _reviewRepository = reviewRepository;
         _mapper = mapper;
@@ -24,9 +25,25 @@ public class ReviewManagementSystemApiController : ControllerBase
         try
         {
             var reviews = await _reviewRepository.GetAllAsync(token);
-            var viewModel = _mapper.Map<List<ReviewModel>>(reviews);
+            var response = _mapper.Map<List<ReviewApiResponse>>(reviews);
 
-            return Ok(viewModel);
+            return Ok(response);
+        }
+        catch
+        {
+            return NotFound("Failed to get all reviews");
+        }
+    }
+
+    [HttpGet(Routes.Filtered)]
+    public async Task<IActionResult> GetFilteredReviewsAsync([FromBody] PaginationModel model, CancellationToken token)
+    {
+        try
+        {
+            var reviews = await _reviewRepository.GetAsync(_ => true, new FilteringOptions(model), token);
+            var response = _mapper.Map<List<ReviewApiResponse>>(reviews);
+
+            return Ok(response);
         }
         catch
         {
@@ -35,14 +52,14 @@ public class ReviewManagementSystemApiController : ControllerBase
     }
 
     [HttpPost(Routes.Create)]
-    public async Task<IActionResult> CreateReviewAsync([FromBody] ReviewModel review, CancellationToken token)
+    public async Task<IActionResult> CreateReviewAsync([FromBody] ReviewApiRequest review, CancellationToken token)
     {
         try
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid review format");
 
-            var data = _mapper.Map<Review>(review);
+            var data = _mapper.Map<Domain.Models.Review>(review);
             await _reviewRepository.CreateAsync(data, token);
 
             return Ok();
@@ -54,7 +71,7 @@ public class ReviewManagementSystemApiController : ControllerBase
     }
 
     [HttpPost(Routes.Update)]
-    public async Task<IActionResult> UpdateReviewAsync([FromBody] ReviewModel review, CancellationToken token)
+    public async Task<IActionResult> UpdateReviewAsync([FromBody] ReviewApiRequest review, CancellationToken token)
     {
         try
         {
@@ -64,7 +81,7 @@ public class ReviewManagementSystemApiController : ControllerBase
             if (review.Id == Guid.Empty)
                 return BadRequest("Id for review was not specified");
 
-            var data = _mapper.Map<Review>(review);
+            var data = _mapper.Map<Domain.Models.Review>(review);
             await _reviewRepository.UpdateAsync(data, token);
 
             return Ok();
@@ -75,7 +92,7 @@ public class ReviewManagementSystemApiController : ControllerBase
         }
     }
 
-    [HttpPost(Routes.Delete)]
+    [HttpDelete(Routes.Delete)]
     public async Task<IActionResult> DeleteReviewAsync([FromQuery] Guid id, CancellationToken token)
     {
         try
