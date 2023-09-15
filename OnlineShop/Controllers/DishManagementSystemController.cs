@@ -96,6 +96,9 @@ public class DishManagementSystemController : Controller
 
         var categories =
             (await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id), null, token)).ToList();
+        dish = (await _dishRepository.GetAsync(x => x.Id == model.DishView.Id, null, token)).FirstOrDefault();
+        if (dish == null)
+            return Ok();
 
         dish.Categories.Clear();
         dish.Categories.AddRange(categories);
