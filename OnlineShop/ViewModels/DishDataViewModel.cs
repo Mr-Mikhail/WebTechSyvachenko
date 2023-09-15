@@ -7,7 +7,7 @@ namespace OnlineShop.ViewModels;
 public class DishDataViewModel
 {
     [Required]
-    public DishModel Dish { get; set; } = default!;
+    public DishViewModel DishView { get; set; } = default!;
 
     public List<CategoryViewModel> Categories { get; set; } = new();
     

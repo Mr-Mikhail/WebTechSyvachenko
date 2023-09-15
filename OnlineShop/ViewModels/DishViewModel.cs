@@ -1,11 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using OnlineShop.Controllers.Api.Category.Dto;
-using OnlineShop.Controllers.Api.Review.Dto;
-using OnlineShop.ViewModels;
 
-namespace OnlineShop.Controllers.Api.Dish.Dto;
+namespace OnlineShop.ViewModels;
 
-public class DishModel
+public class DishViewModel
 {
     public Guid Id { get; set; }
 
@@ -21,7 +18,7 @@ public class DishModel
     [Required(ErrorMessage = "Dish Price is required.")]
     public double Price { get; set; }
 
-    public List<ReviewModel> Reviews { get; set; } = new();
+    public List<ReviewViewModel> Reviews { get; set; } = new();
 
     public List<CategoryViewModel> Categories { get; set; } = new();
 

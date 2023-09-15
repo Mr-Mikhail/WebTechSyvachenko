@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Controllers.Api.Review.Dto;
+namespace OnlineShop.ViewModels;
 
-public class ReviewModel
+public class ReviewViewModel
 {
     [Required]
     public Guid Id { get; set; }

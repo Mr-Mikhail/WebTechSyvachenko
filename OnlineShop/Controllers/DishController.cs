@@ -5,6 +5,7 @@ using OnlineShop.Controllers.Api.Dish.Dto;
 using OnlineShop.Controllers.Api.Review.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
+using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
@@ -24,7 +25,7 @@ public class DishController : Controller
     public async Task<IActionResult> Index(CancellationToken token)
     {
         var dishes = await _dishRepository.GetAllAsync(token);
-        var viewModels = _mapper.Map<List<DishModel>>(dishes);
+        var viewModels = _mapper.Map<List<DishViewModel>>(dishes);
         return View(viewModels);
     }
 
@@ -34,16 +35,16 @@ public class DishController : Controller
         if (dish == null)
             RedirectToAction("Index");
 
-        var viewModel = _mapper.Map<DishModel>(dish);
+        var viewModel = _mapper.Map<DishViewModel>(dish);
         
         return View(viewModel);
     }
 
-    public async Task<IActionResult> CreateReview(ReviewModel reviewModel, CancellationToken token)
+    public async Task<IActionResult> CreateReview(ReviewViewModel reviewViewModel, CancellationToken token)
     {
-        var review = _mapper.Map<Review>(reviewModel);
+        var review = _mapper.Map<Review>(reviewViewModel);
         await _reviewRepository.CreateAsync(review, token);
         
-        return RedirectToAction("Details", new { id = reviewModel.DishId });
+        return RedirectToAction("Details", new { id = reviewViewModel.DishId });
     }
 }

@@ -10,37 +10,37 @@
 {
     <div class="form-group">
         <label for="Name">Dish Name:</label>
-        @Html.TextBoxFor(model => model.Dish.Name, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Dish.Name, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.DishView.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.DishView.Name, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="Description">Dish Description:</label>
-        @Html.TextAreaFor(model => model.Dish.Description, new { @class = "form-control", rows = 4 })
-        @Html.ValidationMessageFor(model => model.Dish.Description, "", new { @class = "text-danger" })
+        @Html.TextAreaFor(model => model.DishView.Description, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.DishView.Description, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="Photo">Dish Photo:</label>
         <input type="file" name="Photo" id="Photo" class="form-control-file" />
-        @Html.ValidationMessageFor(model => model.Dish.Photo, "", new { @class = "text-danger", type = "image" })
+        @Html.ValidationMessageFor(model => model.DishView.Photo, "", new { @class = "text-danger", type = "image" })
     </div>
 
     <div class="form-group">
         <label for="Price">Dish Price:</label>
-        @Html.TextBoxFor(model => model.Dish.Price, new { @class = "form-control", min = 0.01, type = "number", step = "0.01" })
-        @Html.ValidationMessageFor(model => model.Dish.Price, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.DishView.Price, new { @class = "form-control", min = 0.01, type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(model => model.DishView.Price, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="Currency">Currency:</label>
-        @Html.DropDownListFor(model => model.Dish.Currency, new List<SelectListItem>
+        @Html.DropDownListFor(model => model.DishView.Currency, new List<SelectListItem>
         {
             new() { Text = "USD", Value = "USD" },
             new() { Text = "EUR", Value = "EUR" },
             new() { Text = "UAH", Value = "UAH" }
         }, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Dish.Currency, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.DishView.Currency, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">

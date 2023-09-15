@@ -46,11 +46,11 @@ public class DishManagementSystemController : Controller
             await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id),
                 FilteringOptions.AsNoTrackingInstance,
                 token) as List<Category> ?? new List<Category>();
-        var dish = _mapper.Map<Dish>(model.Dish);
+        var dish = _mapper.Map<Dish>(model.DishView);
         dish.Categories = categories;
         await _dishRepository.CreateAsync(dish, token);
 
-        var viewModel = _mapper.Map<DishModel>(dish);
+        var viewModel = _mapper.Map<DishViewModel>(dish);
         
         return View("Created", viewModel);
     }
@@ -58,7 +58,7 @@ public class DishManagementSystemController : Controller
     public async Task<IActionResult> All(CancellationToken token)
     {
         var dishes = await _dishRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<DishModel>>(dishes);
+        var viewModel = _mapper.Map<List<DishViewModel>>(dishes);
 
         return View(viewModel);
     }
@@ -72,12 +72,12 @@ public class DishManagementSystemController : Controller
         if (dish == null)
             return View("Index");
         
-        var model = _mapper.Map<DishModel>(dish);
+        var model = _mapper.Map<DishViewModel>(dish);
         
         // TODO: Remove the code duplication
         var viewModel = new DishDataViewModel
         {
-            Dish = model,
+            DishView = model,
             Categories = _mapper.Map<List<CategoryViewModel>>(await _categoryRepository.GetAllAsync(token)),
             SelectedCategoryIds = model.Categories.Select(x => x.Id).ToList()
         };
@@ -96,7 +96,7 @@ public class DishManagementSystemController : Controller
             (await _categoryRepository.GetAllAsync(token)).Where(x => model.SelectedCategoryIds.Contains(x.Id)) as
                 List<Category> ?? new List<Category>();
         
-        var dish = _mapper.Map<Dish>(model.Dish);
+        var dish = _mapper.Map<Dish>(model.DishView);
         dish.Categories = categories;
         await _dishRepository.UpdateAsync(dish, token);
         return RedirectToAction("All");

@@ -1,16 +1,19 @@
 using AutoMapper;
+using JetBrains.Annotations;
 using OnlineShop.Controllers.Api.Review.Dto;
 using OnlineShop.Domain.Models;
+using OnlineShop.ViewModels;
 
 namespace OnlineShop.Mappings;
 
+[UsedImplicitly]
 public class ReviewProfile : Profile
 {
     public ReviewProfile()
     {
-        CreateMap<Review, ReviewModel>();
+        CreateMap<Review, ReviewViewModel>();
         CreateMap<Review, ReviewApiResponse>();
-        CreateMap<ReviewModel, Review>();
+        CreateMap<ReviewViewModel, Review>();
         CreateMap<ReviewApiRequest, Review>();
     }
 }

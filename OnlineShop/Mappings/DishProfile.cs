@@ -1,4 +1,5 @@
 using AutoMapper;
+using JetBrains.Annotations;
 using OnlineShop.Controllers.Api.Category.Dto;
 using OnlineShop.Controllers.Api.Dish.Dto;
 using OnlineShop.Controllers.Api.Review.Dto;
@@ -7,20 +8,16 @@ using OnlineShop.ViewModels;
 
 namespace OnlineShop.Mappings;
 
+[UsedImplicitly]
 public class DishProfile : Profile
 {
     public DishProfile()
     {
-        CreateMap<Dish, DishModel>();
+        CreateMap<Dish, DishViewModel>();
         CreateMap<Dish, DishApiResponse>();
-        CreateMap<DishModel, Dish>();
+        CreateMap<DishViewModel, Dish>();
         CreateMap<DishApiRequest, Dish>();
 
         CreateMap<PhotoApiRequest, Photo>();
-        
-        CreateMap<Category, CategoryViewModel>();
-        CreateMap<Category, CategoryApiResponse>();
-        CreateMap<CategoryViewModel, Category>();
-        CreateMap<CategoryApiRequest, Category>();
     }
 }
