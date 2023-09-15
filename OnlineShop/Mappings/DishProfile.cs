@@ -1,8 +1,6 @@
 using AutoMapper;
 using JetBrains.Annotations;
-using OnlineShop.Controllers.Api.Category.Dto;
 using OnlineShop.Controllers.Api.Dish.Dto;
-using OnlineShop.Controllers.Api.Review.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.ViewModels;
 

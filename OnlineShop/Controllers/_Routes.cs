@@ -8,6 +8,7 @@ public static class Routes
     public const string DishCategoryManagementSystem = "/dcms";
     public const string ReviewManagementSystem = "/rms";
     public const string CategoryManagementSystem = "/cms";
+    public const string PhotoManagementSystem = "/pms";
 
     public const string All = "all";
     public const string Filtered = "filtered";

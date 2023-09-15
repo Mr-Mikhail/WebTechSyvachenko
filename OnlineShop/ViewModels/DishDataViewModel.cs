@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using OnlineShop.Controllers.Api.Category.Dto;
-using OnlineShop.Controllers.Api.Dish.Dto;
 
 namespace OnlineShop.ViewModels;
 
