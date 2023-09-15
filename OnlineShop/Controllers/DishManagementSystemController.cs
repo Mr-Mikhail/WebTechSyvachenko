@@ -91,13 +91,15 @@ public class DishManagementSystemController : Controller
         if (!ModelState.IsValid) 
             return View("Edit", model);
         
-        // TODO: Resolve an issue with AsNoTracking and tracked dish
-        var categories =
-            (await _categoryRepository.GetAllAsync(token)).Where(x => model.SelectedCategoryIds.Contains(x.Id)) as
-                List<Category> ?? new List<Category>();
-        
         var dish = _mapper.Map<Dish>(model.DishView);
-        dish.Categories = categories;
+        await _dishRepository.UpdateAsync(dish, token);
+
+        var categories =
+            (await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id), null, token)).ToList();
+
+        dish.Categories.Clear();
+        dish.Categories.AddRange(categories);
+        
         await _dishRepository.UpdateAsync(dish, token);
         return RedirectToAction("All");
     }
