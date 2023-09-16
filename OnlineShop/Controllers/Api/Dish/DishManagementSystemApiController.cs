@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Api.Dish.Dto;
 using OnlineShop.Domain.Models;
@@ -10,14 +11,15 @@ namespace OnlineShop.Controllers.Api.Dish;
 [Route(Routes.DishManagementSystem)]
 public class DishManagementSystemApiController : ControllerBase
 {
+    private readonly IMemoryCache _memoryCache;
     private readonly IRepository<Domain.Models.Dish> _dishRepository;
-
     private readonly IMapper _mapper;
 
-    public DishManagementSystemApiController(IRepository<Domain.Models.Dish> dishRepository, IMapper mapper)
+    public DishManagementSystemApiController(IRepository<Domain.Models.Dish> dishRepository, IMapper mapper, IMemoryCache memoryCache)
     {
         _dishRepository = dishRepository;
         _mapper = mapper;
+        _memoryCache = memoryCache;
     }
 
     [HttpGet(Routes.All)]
@@ -25,10 +27,19 @@ public class DishManagementSystemApiController : ControllerBase
     {
         try
         {
-            var dishes = await _dishRepository.GetAllAsync(token);
-            var response = _mapper.Map<List<DishApiResponse>>(dishes);
+            var data = await _memoryCache.GetOrCreateAsync<List<DishApiResponse>>("all_dishes",
+                async entry =>
+                {
 
-            return Ok(response);
+                    var dishes = await _dishRepository.GetAllAsync(token);
+                    var response = _mapper.Map<List<DishApiResponse>>(dishes);
+
+                    entry.Value = response;
+                    entry.SlidingExpiration = TimeSpan.FromMinutes(10);
+
+                    return response;
+                });
+            return Ok(data);
         }
         catch
         {

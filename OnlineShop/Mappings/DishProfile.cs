@@ -1,6 +1,7 @@
 using AutoMapper;
 using JetBrains.Annotations;
 using OnlineShop.Controllers.Api.Dish.Dto;
+using OnlineShop.Controllers.Api.Photo.Dto;
 using OnlineShop.Domain.Models;
 using OnlineShop.ViewModels;
 
@@ -22,5 +23,7 @@ public class DishProfile : Profile
             .ForMember(x => x.Photo,
                 y => y.Ignore());
         CreateMap<DishApiRequest, Dish>();
+
+        CreateMap<Photo, PhotoApiResponse>();
     }
 }

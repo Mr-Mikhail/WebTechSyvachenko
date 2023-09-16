@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Api.Category.Dto;
 using OnlineShop.Domain.Models;
@@ -10,15 +11,15 @@ namespace OnlineShop.Controllers.Api.Category;
 [Route(Routes.CategoryManagementSystem)]
 public class CategoryManagementSystemApiController : ControllerBase
 {
+    private readonly IMemoryCache _memoryCache;
     private readonly IRepository<Domain.Models.Category> _categoryRepository;
-    private readonly IRepository<Domain.Models.Dish> _dishRepository;
     private readonly IMapper _mapper;
 
-    public CategoryManagementSystemApiController(IRepository<Domain.Models.Category> categoryRepository, IMapper mapper, IRepository<Domain.Models.Dish> dishRepository)
+    public CategoryManagementSystemApiController(IRepository<Domain.Models.Category> categoryRepository, IMapper mapper, IMemoryCache memoryCache)
     {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
-        _dishRepository = dishRepository;
+        _memoryCache = memoryCache;
     }
 
     [HttpGet(Routes.All)]
@@ -26,10 +27,18 @@ public class CategoryManagementSystemApiController : ControllerBase
     {
         try
         {
-            var categories = await _categoryRepository.GetAllAsync(token);
-            var response = _mapper.Map<List<CategoryApiResponse>>(categories);
+            var data = await _memoryCache.GetOrCreateAsync<List<CategoryApiResponse>>("all_categories", async entry =>
+            {
+                var categories = await _categoryRepository.GetAllAsync(token);
+                var response = _mapper.Map<List<CategoryApiResponse>>(categories);
 
-            return Ok(response);
+                entry.Value = response;
+                entry.SlidingExpiration = TimeSpan.FromMinutes(10);
+                
+                return response;
+            });
+
+            return Ok(data);
         }
         catch
         {

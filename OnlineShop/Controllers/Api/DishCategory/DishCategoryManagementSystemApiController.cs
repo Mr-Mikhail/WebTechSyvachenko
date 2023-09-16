@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Api.DishCategory.Dto;
 using OnlineShop.Domain.Services;
 
@@ -22,8 +23,8 @@ public class DishCategoryManagementSystemApiController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var dish = (await _dishRepository.GetAsync(x => x.Id == model.DishId, null, token)).FirstOrDefault();
-        var categories = (await _categoryRepository.GetAsync(x => model.CategoryIds.Contains(x.Id), null, token)).ToList();
+        var dish = (await _dishRepository.GetAsync(x => x.Id == model.DishId, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
+        var categories = (await _categoryRepository.GetAsync(x => model.CategoryIds.Contains(x.Id), FilteringOptions.AsNoTrackingInstance, token)).ToList();
 
         if (dish == null)
             return BadRequest("Wrong id");
@@ -42,9 +43,9 @@ public class DishCategoryManagementSystemApiController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var category = (await _categoryRepository.GetAsync(x => x.Id == model.CategoryId, null, token))
+        var category = (await _categoryRepository.GetAsync(x => x.Id == model.CategoryId, FilteringOptions.AsNoTrackingInstance, token))
             .FirstOrDefault();
-        var dishes = (await _dishRepository.GetAsync(x => model.DishIds.Contains(x.Id), null, token)).ToList();
+        var dishes = (await _dishRepository.GetAsync(x => model.DishIds.Contains(x.Id), FilteringOptions.AsNoTrackingInstance, token)).ToList();
         
         if (category == null)
             return BadRequest("Wrong id");
@@ -63,8 +64,8 @@ public class DishCategoryManagementSystemApiController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var dish = (await _dishRepository.GetAsync(x => x.Id == model.DishId, null, token)).FirstOrDefault();
-        var categories = await _categoryRepository.GetAsync(x => model.CategoryIds.Contains(x.Id), null, token);
+        var dish = (await _dishRepository.GetAsync(x => x.Id == model.DishId, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
+        var categories = await _categoryRepository.GetAsync(x => model.CategoryIds.Contains(x.Id), FilteringOptions.AsNoTrackingInstance, token);
 
         if (dish == null)
             return BadRequest("Wrong id");
@@ -82,7 +83,7 @@ public class DishCategoryManagementSystemApiController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var dish = (await _dishRepository.GetAsync(x => x.Id == id, null, token)).FirstOrDefault();
+        var dish = (await _dishRepository.GetAsync(x => x.Id == id, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
 
         if (dish == null)
             return BadRequest("Wrong id");
@@ -99,8 +100,8 @@ public class DishCategoryManagementSystemApiController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var category = (await _categoryRepository.GetAsync(x => x.Id == model.CategoryId, null, token)).FirstOrDefault();
-        var dishes = await _dishRepository.GetAsync(x => model.DishIds.Contains(x.Id), null, token);
+        var category = (await _categoryRepository.GetAsync(x => x.Id == model.CategoryId, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
+        var dishes = await _dishRepository.GetAsync(x => model.DishIds.Contains(x.Id), FilteringOptions.AsNoTrackingInstance, token);
 
         if (category == null)
             return BadRequest("Wrong id");
@@ -118,7 +119,7 @@ public class DishCategoryManagementSystemApiController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest();
         
-        var category = (await _categoryRepository.GetAsync(x => x.Id == id, null, token)).FirstOrDefault();
+        var category = (await _categoryRepository.GetAsync(x => x.Id == id, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
 
         if (category == null)
             return BadRequest("Wrong id");

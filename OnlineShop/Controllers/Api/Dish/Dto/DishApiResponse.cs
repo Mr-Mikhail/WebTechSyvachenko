@@ -1,4 +1,5 @@
 using OnlineShop.Controllers.Api.Category.Dto;
+using OnlineShop.Controllers.Api.Photo.Dto;
 using OnlineShop.Controllers.Api.Review.Dto;
 
 namespace OnlineShop.Controllers.Api.Dish.Dto;
@@ -11,7 +12,7 @@ public class DishApiResponse
     
     public string Description { get; set; } = default!;
 
-    public Domain.Models.Photo? Photo { get; set; }
+    public PhotoApiResponse? Photo { get; set; }
 
     public double Price { get; set; }
 

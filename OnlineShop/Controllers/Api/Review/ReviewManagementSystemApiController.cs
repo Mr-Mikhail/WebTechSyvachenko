@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using OnlineShop.Application.Models;
 using OnlineShop.Controllers.Api.Review.Dto;
 using OnlineShop.Domain.Models;
@@ -10,13 +11,15 @@ namespace OnlineShop.Controllers.Api.Review;
 [Route(Routes.ReviewManagementSystem)]
 public class ReviewManagementSystemApiController : ControllerBase
 {
+    private readonly IMemoryCache _memoryCache;
     private readonly IRepository<Domain.Models.Review> _reviewRepository;
     private readonly IMapper _mapper;
 
-    public ReviewManagementSystemApiController(IRepository<Domain.Models.Review> reviewRepository, IMapper mapper)
+    public ReviewManagementSystemApiController(IRepository<Domain.Models.Review> reviewRepository, IMapper mapper, IMemoryCache memoryCache)
     {
         _reviewRepository = reviewRepository;
         _mapper = mapper;
+        _memoryCache = memoryCache;
     }
 
     [HttpGet(Routes.All)]
@@ -24,10 +27,18 @@ public class ReviewManagementSystemApiController : ControllerBase
     {
         try
         {
-            var reviews = await _reviewRepository.GetAllAsync(token);
-            var response = _mapper.Map<List<ReviewApiResponse>>(reviews);
-
-            return Ok(response);
+            var data = await _memoryCache.GetOrCreateAsync<List<ReviewApiResponse>>("all_reviews",
+                async entry =>
+                {
+                    var reviews = await _reviewRepository.GetAllAsync(token);
+                    var response = _mapper.Map<List<ReviewApiResponse>>(reviews);
+                    
+                    entry.Value = response;
+                    entry.SlidingExpiration = TimeSpan.FromMinutes(10);
+                
+                    return response;
+                });
+            return Ok(data);
         }
         catch
         {
