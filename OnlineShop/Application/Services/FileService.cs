@@ -39,6 +39,28 @@ public class FileService
         return files;
     }
 
+    public async Task<BlobModel> GetBlobByName(string fileName, CancellationToken token)
+    {
+        await foreach (var item in _filesContainer.GetBlobsAsync(cancellationToken: token))
+        {
+            if (fileName != item.Name)
+                continue;
+            
+            var uri = _filesContainer.Uri.ToString();
+            var name = item.Name;
+            var fullUri = $"{uri}/{name}";
+            
+            return new BlobModel
+            {
+                Uri = fullUri,
+                Name = name,
+                ContentType = item.Properties.ContentType,
+            };
+        }
+        
+        return new BlobModel();
+    }
+
     public async Task<BlobResponseModel> UploadAsync(IFormFile blob)
     {
         var client = _filesContainer.GetBlobClient(blob.FileName);

@@ -11,11 +11,16 @@ public class DishProfile : Profile
 {
     public DishProfile()
     {
-        CreateMap<Dish, DishViewModel>();
+        CreateMap<Dish, DishViewModel>()
+            .ForMember(x => x.PhotoUrl,
+                y => y.Ignore())
+            .ForMember(x => x.PhotoName,
+                y => 
+                    y.MapFrom(z => z.Photo == null ? null : z.Photo.Name));
         CreateMap<Dish, DishApiResponse>();
-        CreateMap<DishViewModel, Dish>();
+        CreateMap<DishViewModel, Dish>()
+            .ForMember(x => x.Photo,
+                y => y.Ignore());
         CreateMap<DishApiRequest, Dish>();
-
-        CreateMap<PhotoApiRequest, Photo>();
     }
 }

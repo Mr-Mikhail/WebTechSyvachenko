@@ -7,8 +7,6 @@ public class DishApiRequest
     public string Name { get; set; } = default!;
     
     public string Description { get; set; } = default!;
-
-    public PhotoApiRequest Photo { get; set; } = default!;
     
     public double Price { get; set; }
     

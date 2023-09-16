@@ -12,16 +12,14 @@ public class DishManagementSystemController : Controller
 {
     private readonly IRepository<Dish> _dishRepository;
     private readonly IRepository<Category> _categoryRepository;
-    private readonly FileService _fileService;
     private readonly DishService _dishService;
     private readonly IMapper _mapper;
 
-    public DishManagementSystemController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Category> categoryRepository, FileService fileService, DishService dishService)
+    public DishManagementSystemController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Category> categoryRepository, DishService dishService)
     {
         _dishRepository = dishRepository;
         _mapper = mapper;
         _categoryRepository = categoryRepository;
-        _fileService = fileService;
         _dishService = dishService;
     }
 
@@ -49,8 +47,7 @@ public class DishManagementSystemController : Controller
 
     public async Task<IActionResult> All(CancellationToken token)
     {
-        var dishes = await _dishRepository.GetAllAsync(token);
-        var viewModel = _mapper.Map<List<DishViewModel>>(dishes);
+        var viewModel = await _dishService.GetAllDishes(token);
 
         return View(viewModel);
     }

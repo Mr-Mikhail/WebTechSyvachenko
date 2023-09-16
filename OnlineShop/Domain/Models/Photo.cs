@@ -5,7 +5,8 @@ namespace OnlineShop.Domain.Models;
 public class Photo
 {
     [Key]
-    public Guid Id { get; set; }
+    [Required]
+    public string Name { get; set; } = default!;
     
     [StringLength(200)]
     public string? Metadata { get; set; }

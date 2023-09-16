@@ -9,6 +9,8 @@ public class DishDataViewModel
 
     public List<CategoryViewModel> Categories { get; set; } = new();
     
+    public IFormFile? Photo { get; set; }
+    
     // ReSharper disable once CollectionNeverUpdated.Global
     public List<Guid> SelectedCategoryIds { get; set; } = new();
 }

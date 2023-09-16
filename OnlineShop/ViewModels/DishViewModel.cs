@@ -12,8 +12,9 @@ public class DishViewModel
     [Required(ErrorMessage = "Dish Description is required.")]
     public string Description { get; set; } = default!;
 
-    // TODO: Handle image in normal way - blob storage / CDN
-    public IFormFile? Photo { get; set; }
+    public string? PhotoUrl { get; set; }
+    
+    public string? PhotoName { get; set; }
 
     [Required(ErrorMessage = "Dish Price is required.")]
     public double Price { get; set; }

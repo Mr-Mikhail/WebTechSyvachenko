@@ -11,6 +11,7 @@
             <th>Dish Description</th>
             <th>Dish Price</th>
             <th>Currency</th>
+            <th>Photo</th>
             <th>Edit Dish</th>
         </tr>
         </thead>
@@ -22,6 +23,16 @@
                 <td>@dish.Description</td>
                 <td>@dish.Price</td>
                 <td>@dish.Currency</td>
+                <td>
+                    @if(dish.PhotoUrl != null)
+                    {
+                        <img src="@dish.PhotoUrl" alt="Dish Photo" />
+                    }
+                    else
+                    {
+                        <span>No Photo Available</span>
+                    }
+                </td>
                 <td>
                     <a href="@Url.Action("Edit", "DishManagementSystem", new { id = dish.Id })">Edit</a>
                 </td>
