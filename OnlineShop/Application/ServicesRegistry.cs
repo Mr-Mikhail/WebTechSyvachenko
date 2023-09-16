@@ -17,6 +17,7 @@ public static class ServicesRegistry
         services.AddScoped<IRepository<Review>, ReviewRepository>();
         services.AddScoped<IRepository<Category>, CategoryRepository>();
         services.AddScoped<FileService>();
+        services.AddScoped<DishService>();
 
         return services;
     }

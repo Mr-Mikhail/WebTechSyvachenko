@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Models;
+using OnlineShop.Application.Services;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.ViewModels;
@@ -11,13 +12,17 @@ public class DishManagementSystemController : Controller
 {
     private readonly IRepository<Dish> _dishRepository;
     private readonly IRepository<Category> _categoryRepository;
+    private readonly FileService _fileService;
+    private readonly DishService _dishService;
     private readonly IMapper _mapper;
 
-    public DishManagementSystemController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Category> categoryRepository)
+    public DishManagementSystemController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Category> categoryRepository, FileService fileService, DishService dishService)
     {
         _dishRepository = dishRepository;
         _mapper = mapper;
         _categoryRepository = categoryRepository;
+        _fileService = fileService;
+        _dishService = dishService;
     }
 
     public IActionResult Index()
@@ -37,20 +42,9 @@ public class DishManagementSystemController : Controller
 
     public async Task<IActionResult> SaveAsync(DishDataViewModel model, CancellationToken token)
     {
-        if (!ModelState.IsValid) 
-            return RedirectToAction("Create");
-
-        var categories =
-            await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id),
-                FilteringOptions.AsNoTrackingInstance,
-                token) as List<Category> ?? new List<Category>();
-        var dish = _mapper.Map<Dish>(model.DishView);
-        dish.Categories = categories;
-        await _dishRepository.CreateAsync(dish, token);
-
-        var viewModel = _mapper.Map<DishViewModel>(dish);
-        
-        return View("Created", viewModel);
+        return !ModelState.IsValid
+            ? View("Edit", model)
+            : View("Created", await _dishService.CreateDishAsync(model, token));
     }
 
     public async Task<IActionResult> All(CancellationToken token)
@@ -88,20 +82,8 @@ public class DishManagementSystemController : Controller
     {
         if (!ModelState.IsValid) 
             return View("Edit", model);
-        
-        var dish = _mapper.Map<Dish>(model.DishView);
-        await _dishRepository.UpdateAsync(dish, token);
 
-        var categories =
-            (await _categoryRepository.GetAsync(x => model.SelectedCategoryIds.Contains(x.Id), null, token)).ToList();
-        dish = (await _dishRepository.GetAsync(x => x.Id == model.DishView.Id, null, token)).FirstOrDefault();
-        if (dish == null)
-            return Ok();
-
-        dish.Categories.Clear();
-        dish.Categories.AddRange(categories);
-        
-        await _dishRepository.UpdateAsync(dish, token);
+        await _dishService.UpdateDishAsync(model, token);
         return RedirectToAction("All");
     }
 
