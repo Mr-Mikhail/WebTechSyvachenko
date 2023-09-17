@@ -1,0 +1,34 @@
+@model OnlineShop.Application.Models.Privat24Model
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+Date: @Model.Date
+
+<table style="border: 1px solid black;">
+    <thead>
+        <tr style="border: 1px solid black;">
+            <th style="border: 1px solid black;">Base Currency</th>
+            <th style="border: 1px solid black;">Currency</th>
+            <th style="border: 1px solid black;">Sale Rate NB</th>
+            <th style="border: 1px solid black;">Purchase Rate NB</th>
+            <th style="border: 1px solid black;">Sale Rate</th>
+            <th style="border: 1px solid black;">Purchase Rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rate in Model.ExchangeRate!)
+        {
+            <tr>
+                <td style="border: 1px solid black;">@rate.BaseCurrency</td>
+                <td style="border: 1px solid black;">@rate.Currency</td>
+                <td style="border: 1px solid black;">@rate.SaleRateNb</td>
+                <td style="border: 1px solid black;">@rate.PurchaseRateNb</td>
+                <td style="border: 1px solid black;">@rate.SaleRate</td>
+                <td style="border: 1px solid black;">@rate.PurchaseRate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

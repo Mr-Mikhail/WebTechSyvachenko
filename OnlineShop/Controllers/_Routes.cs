@@ -10,6 +10,8 @@ public static class Routes
     public const string CategoryManagementSystem = "/cms";
     public const string PhotoManagementSystem = "/pms";
 
+    public const string Privat24 = "Privat24";
+
     public const string All = "all";
     public const string Filtered = "filtered";
     public const string Create = "create";
