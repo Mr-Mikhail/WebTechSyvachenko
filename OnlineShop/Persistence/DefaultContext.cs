@@ -14,6 +14,7 @@ public class DefaultContext : DbContext
     public DbSet<Photo> Photos { get; set; } = default!;
     public DbSet<Review> Reviews { get; set; } = default!;
     public DbSet<Category> Categories { get; set; } = default!;
+    public DbSet<Restaurant> Restaurants { get; set; } = default!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -24,6 +25,7 @@ public class DefaultContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Photo>().ToTable("Photos");
+        modelBuilder.Entity<Restaurant>().ToTable("Restaurants");
         
         modelBuilder.Entity<Dish>()
             .HasOne(p => p.Photo)

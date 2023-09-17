@@ -1,14 +1,19 @@
+@model OnlineShop.ViewModels.MapViewModel
+
 @{
-    ViewData["Title"] = "Simple Marker";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Optional, depending on your layout needs
+    ViewData["Title"] = "Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <head>
     <title>Simple Marker</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&libraries=&v=weekly" defer></script>
-    <link rel="stylesheet" href="~/css/map/style.css" /> <!-- Adjust the path to your CSS file -->
-    <script src="~/js/maps/app.js"></script> <!-- Adjust the path to your JavaScript file -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=@Model.Key&callback=initMap&libraries=&v=weekly" defer></script>
+    <link rel="stylesheet" href="~/css/map/style.css" />
+    <script>
+        var restaurantLocations = @Html.Raw(Json.Serialize(Model.RestaurantLocations));
+    </script>
+    <script src="~/js/maps/app.js"></script>
 </head>
 <body>
     <div id="gmp-map"></div>

@@ -169,4 +169,40 @@ public static class DbInitializer
         context.Categories.AddRange(categories);
         context.SaveChanges();
     }
+    
+    public static void InitializeRestaurants(DefaultContext context)
+    {
+        if (context.Restaurants.Any())
+        {
+            return;
+        }
+
+        var restaurants = new List<Restaurant>
+        {
+            new() 
+            { 
+                Id = Guid.NewGuid(), 
+                Name = "Sivach Grill", 
+                Latitude = 50.4320068359375,
+                Longitude = 30.548824310302734
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Sivach Kebap",
+                Latitude = 50.433223724365234,
+                Longitude = 30.550851821899414
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Sivach Shisha House",
+                Latitude = 50.43281173706055,
+                Longitude = 30.54745101928711
+            }
+        };
+        
+        context.Restaurants.AddRange(restaurants);
+        context.SaveChanges();
+    }
 }

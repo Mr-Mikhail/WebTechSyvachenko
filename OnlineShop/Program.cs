@@ -50,6 +50,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
     DbInitializer.InitializeCategories(context);
     DbInitializer.InitializeDishes(context);
+    DbInitializer.InitializeRestaurants(context);
 }
 
 app.UseHttpsRedirection();

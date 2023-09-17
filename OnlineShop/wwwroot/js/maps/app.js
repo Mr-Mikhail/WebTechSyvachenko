@@ -12,9 +12,12 @@ function initMap() {
         zoomControl: true,
         streetViewControl: false
     });
-    new google.maps.Marker({
-        position: myLatLng,
-        map,
-        title: "My location"
+
+    restaurantLocations.forEach(function(restaurant) {
+        const marker = new google.maps.Marker({
+            position: { lat: restaurant.latitude, lng: restaurant.longitude },
+            map: map,
+            title: restaurant.name
+        });
     });
 }
