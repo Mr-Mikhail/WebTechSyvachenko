@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Models;
+using OnlineShop.Application.Services;
 using OnlineShop.Domain.Models;
 using OnlineShop.Domain.Services;
 using OnlineShop.ViewModels;
@@ -11,20 +12,21 @@ public class DishController : Controller
 {
     private readonly IRepository<Dish> _dishRepository;
     private readonly IRepository<Review> _reviewRepository;
+    private readonly DishService _dishService;
     private readonly IMapper _mapper;
     
-    public DishController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Review> reviewRepository)
+    public DishController(IRepository<Dish> dishRepository, IMapper mapper, IRepository<Review> reviewRepository, DishService dishService)
     {
         _dishRepository = dishRepository;
         _mapper = mapper;
         _reviewRepository = reviewRepository;
+        _dishService = dishService;
     }
 
     public async Task<IActionResult> Index(CancellationToken token)
     {
-        var dishes = await _dishRepository.GetAllAsync(token);
-        var viewModels = _mapper.Map<List<DishViewModel>>(dishes);
-        return View(viewModels);
+        var viewModel = await _dishService.GetAllDishes(token);
+        return View(viewModel);
     }
 
     public async Task<IActionResult> Details(Guid id, CancellationToken token)
