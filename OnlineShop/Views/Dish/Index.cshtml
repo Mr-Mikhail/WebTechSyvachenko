@@ -1,9 +1,11 @@
 @using NuGet.Protocol
+@using OnlineShop.ViewModels
 @model List<OnlineShop.ViewModels.DishViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "_Layout";
+    ViewBag["Cart"] = new List<DishViewModel>();
 }
 
 <div class="dish-container">
@@ -22,7 +24,7 @@
                             <h2>@Model[i].Name</h2>
                             <p class="price">Price: @Model[i].Price @Model[i].Currency</p>
                             <a href="@Url.Action("Details", "Dish", new { id = Model[i].Id })" class="details-link">View Details</a>
-                            <button class="order-button" onclick="addToOrder('@Model[i].ToJson()')">Add to order</button>
+                            <button class="order-button" onclick="@ViewBag["Cart"].Add(Model[i])">Add to order</button>
                         </div>
                     </td>
                     i++;
