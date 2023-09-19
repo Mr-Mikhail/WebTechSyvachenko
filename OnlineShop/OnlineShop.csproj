@@ -27,6 +27,8 @@
       <PackageReference Include="Google.Apis.Drive.v3" Version="1.62.0.3155" />
       <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.21" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.22" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.22" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.21">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

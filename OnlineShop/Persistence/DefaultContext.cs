@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Domain.Models;
 
 namespace OnlineShop.Persistence;
 
-public class DefaultContext : DbContext
+public class DefaultContext : IdentityDbContext<IdentityUser>
 {
     public DefaultContext(DbContextOptions<DefaultContext> options)
         : base(options)

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Application.Models;
 using OnlineShop.Application.Services;
@@ -8,6 +9,7 @@ using OnlineShop.ViewModels;
 
 namespace OnlineShop.Controllers;
 
+[Authorize]
 public class DishManagementSystemController : Controller
 {
     private readonly IRepository<Dish> _dishRepository;
