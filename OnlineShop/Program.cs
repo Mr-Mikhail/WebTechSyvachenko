@@ -22,6 +22,12 @@ builder.Services.AddDbContext<DefaultContext>(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<DefaultContext>();
 
+builder.Services.AddAuthentication().AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["AuthenticationConfiguration:GoogleClientId"];
+    options.ClientSecret = builder.Configuration["AuthenticationConfiguration:GoogleClientSecret"];
+});
+
 builder.Services.RegisterServices(builder.Configuration);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
