@@ -14,6 +14,7 @@ public static class ServicesRegistry
     {
         services.AddOptions<BlobStorageConfiguration>().Bind(configuration.GetSection(nameof(BlobStorageConfiguration)));
         services.AddOptions<MapConfiguration>().Bind(configuration.GetSection(nameof(MapConfiguration)));
+        services.AddOptions<SearchConfiguration>().Bind(configuration.GetSection(nameof(SearchConfiguration)));
 
         services.AddHttpClient(Routes.Privat24);
 

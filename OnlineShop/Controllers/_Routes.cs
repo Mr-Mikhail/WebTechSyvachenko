@@ -14,6 +14,7 @@ public static class Routes
 
     public const string All = "all";
     public const string Filtered = "filtered";
+    public const string Search = "search";
     public const string Create = "create";
     public const string Update = "update";
     public const string Delete = "delete";
