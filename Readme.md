@@ -14,6 +14,7 @@
 * ### Hosted in Azure:
   * #### Azure Web Services
   * #### Azure SQL database
+  * #### Azure Search
   * #### Azure Blob Storage
   * #### Azure Key Vault
 
@@ -24,3 +25,6 @@
 * ### Google Maps Integration
 
 * ### Privat24 API Integration
+
+* #### Api Caching
+* #### Response Pagination
