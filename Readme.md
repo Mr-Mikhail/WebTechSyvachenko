@@ -16,6 +16,8 @@
   * #### Azure SQL database
   * #### Azure Search
   * #### Azure Blob Storage
+  * #### Azure Functions
+  * #### Azure Queues
   * #### Azure Key Vault
 
 * ### CI/CD integration with GitHub Actions
