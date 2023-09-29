@@ -1,4 +1,4 @@
-@model List<OnlineShop.Application.Models.FortuneModel>
+@model Dictionary<string, DateTime>
 
 @{
     ViewBag.Title = "title";
@@ -10,21 +10,21 @@
 
 @foreach (var item in Model)
 {
-    <p><h2>@item.Name is going to die on @item.Date.</h2></p>
+    <p><h2>@item.Key is going to die on @(item.Value.ToShortDateString()).</h2></p>
 
-    @if (item.Date >= DateTime.Now.AddYears(10) && item.Date < DateTime.Now.AddYears(20))
+    @if (item.Value >= DateTime.Now.AddYears(10) && item.Value < DateTime.Now.AddYears(20))
     {
         <h2>Probably you died because of heart attack while doing one of the Sys. Prog. labs. RIP.</h2>
     }
-    @if(item.Date >= DateTime.Now.AddYears(20) && item.Date < DateTime.Now.AddYears(50))
+    @if(item.Value >= DateTime.Now.AddYears(20) && item.Value < DateTime.Now.AddYears(50))
     {
         <h2>It's going to be a sad hour. Or maybe just 30 minutes. But if you decided to die earlier, nothing would have changed.</h2>
     }
-    @if (item.Date >= DateTime.Now.AddYears(50) && item.Date < DateTime.Now.AddYears(100))
+    @if (item.Value >= DateTime.Now.AddYears(50) && item.Value < DateTime.Now.AddYears(100))
     {
         <h2>Why would you live so long? Just die with us, my dear!</h2>
     }
-    @if (item.Date >= DateTime.Now.AddYears(100))
+    @if (item.Value >= DateTime.Now.AddYears(100))
     {
         <h2>Are you a vampire? Wtf. Get out of here, we don't trust you.</h2>
     }
