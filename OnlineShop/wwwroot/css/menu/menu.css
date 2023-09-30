@@ -1,5 +1,6 @@
 .dish-container {
     text-align: center;
+    color: #ff6f00; /* Light text color for contrast against dark background */
 }
 
 .dish-table {
@@ -8,13 +9,18 @@
     margin-top: 20px;
 }
 
+.navbar-custom {
+    color: #ffaf !important; /* Golden color */
+}
+
 .dish-card {
-    border: 1px solid #ccc;
+    border: 1px solid #ff9100;
     padding: 10px;
     margin: 10px;
     max-width: 200px;
     text-align: center;
-    box-shadow: 0 10px 10px #2c3034;
+    background: linear-gradient(to right, #2d1403, #281100FF); /* Flames of yellow-orange color */
+    box-shadow: 0 5px 5px #ffad00;
 }
 
 .dish-card img {
@@ -29,6 +35,7 @@
 .details-link {
     display: block;
     margin-top: 10px;
+    color: #ffdbac; /* Light text color for contrast against dark background */
 }
 
 .clearfix::after {
@@ -41,8 +48,8 @@
     display: block;
     margin: 10px auto;
     padding: 8px 16px;
-    background-color: #007bff; /* Blue color, you can change it to your preferred color */
-    color: #fff;
+    background-color: #ffaf00; /* Yellow-orange color */
+    color: #2c3034; /* Dark text color for contrast */
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -54,5 +61,5 @@
 }
 
 .order-button:hover {
-    background-color: #0056b3; /* Darker shade of blue on hover */
+    background-color: #ffdbac; /* Lighter shade of yellow-orange on hover */
 }

@@ -2,6 +2,23 @@ html {
   font-size: 14px;
 }
 
+header {
+  background-color: rgba(33, 24, 16, 0);
+  color: #ff4300;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+body {
+  background: url('https://sivach.blob.core.windows.net/sivach/fire-wallpaper.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -11,67 +28,4 @@ html {
 html {
   position: relative;
   min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.dish-container {
-  text-align: center;
-}
-
-.dish-table {
-  display: inline-table;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.dish-card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
-  max-width: 200px;
-  text-align: center;
-  box-shadow: 0 10px 10px #2c3034;
-}
-
-.dish-card img {
-  max-width: 100%;
-  height: auto;
-}
-
-.price {
-  font-weight: bold;
-}
-
-.details-link {
-  display: block;
-  margin-top: 10px;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.order-button {
-  display: block;
-  margin: 10px auto;
-  padding: 8px 16px;
-  background-color: #007bff; /* Blue color, you can change it to your preferred color */
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.order-button:hover {
-  background-color: #0056b3; /* Darker shade of blue on hover */
 }
