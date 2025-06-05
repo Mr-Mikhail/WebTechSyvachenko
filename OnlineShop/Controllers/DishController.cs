@@ -33,7 +33,9 @@ public class DishController : Controller
     {
         var dish = (await _dishRepository.GetAsync(x => x.Id == id, FilteringOptions.AsNoTrackingInstance, token)).FirstOrDefault();
         if (dish == null)
+        {
             return RedirectToAction("Index");
+        }
 
         var viewModel = _mapper.Map<DishViewModel>(dish);
         
